@@ -17,6 +17,7 @@
     "@ionic/react-router": "^5.9.1",
     "@sendgrid/mail": "^7.6.0",
     "@truffle/hdwallet-provider": "^1.7.0",
+    "@walletconnect/web3-provider": "^1.6.6",
     "antd": "^4.17.2",
     "autoprefixer": "^10.4.0",
     "capacitor-dark-mode": "^1.0.5",

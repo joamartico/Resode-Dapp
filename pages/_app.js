@@ -13,8 +13,6 @@ import '../styles/variables.css';
 import { MoralisProvider } from 'react-moralis';
 // const secrets = require('../secrets.json');
 
-
-
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -22,7 +20,7 @@ function MyApp({ Component, pageProps }) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
         {/* SEO  */}
-        <title>Boilerplate</title>
+        <title>Resode</title>
         <meta
           name="google-site-verification"
           // content="3XoSVdS7QLQWutddbE1sJ60XT3mFR-WXrP80V4AharU"
@@ -174,9 +172,11 @@ function MyApp({ Component, pageProps }) {
           href="/apple-splash-1136-640.jpg"
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
         />
-        <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
       </Head>
-      <MoralisProvider appId={process.env.NEXT_PUBLIC_APPID} serverUrl={process.env.NEXT_PUBLIC_SERVERURL}>
+      <MoralisProvider
+        appId={process.env.NEXT_PUBLIC_APPID}
+        serverUrl={process.env.NEXT_PUBLIC_SERVERURL}
+      >
         <Component {...pageProps} />
       </MoralisProvider>
     </>
