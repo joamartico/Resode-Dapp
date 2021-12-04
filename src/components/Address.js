@@ -6,7 +6,7 @@ import { useGlobalState } from '../Context';
 import BlockieAvatar from './BlockieAvatar';
 import styled from 'styled-components';
 
-function Address() {
+function Address({copyable, size, avatar }) {
   const { walletAddress } = useGlobalState();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -39,10 +39,10 @@ function Address() {
 
   return (
     <Wrapper>
-      {props.avatar === 'left' && <BlockieAvatar address={walletAddress} size={7} />}
-      <p>{props.size ? getEllipsisTxt(walletAddress, props.size) : walletAddress}</p>
-      {props.avatar === 'right' && <Blockie address={walletAddress} size={7} />}
-      {props.copyable && (isClicked ? <Check /> : <Copy />)}
+      {avatar === 'left' && <BlockieAvatar address={walletAddress} size={7} />}
+      <p>{size ? getEllipsisTxt(walletAddress, size) : walletAddress}</p>
+      {avatar === 'right' && <Blockie address={walletAddress} size={7} />}
+      {copyable && (isClicked ? <Check /> : <Copy />)}
     </Wrapper>
   );
 }

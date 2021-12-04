@@ -71,7 +71,7 @@ export const Row = styled.div`
 `;
 
 export const Icon = styled(IonIcon)`
-  --ionicon-stroke-width: 64px !important;
+  /* --ionicon-stroke-width: 64px !important; */
   /* color: ${({ color }) => (color ? color : COLORS.primary)}; */
   color: ${({ iconColor }) => (iconColor ? iconColor : COLORS.primary)};
   font-size: ${({ size }) => size + 'px'};

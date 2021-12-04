@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import { IonButton, IonIcon, IonModal } from '@ionic/react';
 import { Button, Icon, Padding, Row } from './StyledComponents';
-import { closeOutline } from 'ionicons/icons';
+import { closeOutline, openOutline } from 'ionicons/icons';
 import { useGlobalState } from "../Context";
 
 // console.log('#08e41a: ', fromHexToRGB('#08e41a'));
@@ -86,7 +86,7 @@ const Account = () => {
                 style={{ color: '#70727C' }}
               >
                 <Row width="fit-content">
-                  <Icon marginRight="10" icon="open-outline" color="#70727C" size={18} />
+                  <Icon marginRight="10" icon={openOutline} color="#70727C" size={18} />
                   View on Explorer
                 </Row>
               </a>

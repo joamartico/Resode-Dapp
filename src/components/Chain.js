@@ -4,6 +4,7 @@ import { useChain } from 'react-moralis';
 import { Icon } from './StyledComponents';
 import styled from 'styled-components';
 import { isMobile } from '../helpers/isMobile';
+import { chevronDown } from "ionicons/icons";
 
 const networks = [
   {
@@ -135,7 +136,7 @@ function Chain() {
         <span style={{ marginLeft: '5px' }}>
           {selected?.name} {!isMobile && selected.type}
         </span>
-        <Icon name="chevron-down" size={22} color="#000" marginLeft={4} />
+        <Icon icon={chevronDown} size={22} color="#000" marginLeft={4} />
       </ActualChain>
     </>
   );
