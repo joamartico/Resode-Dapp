@@ -13,6 +13,8 @@ import '../styles/variables.css';
 import { MoralisProvider } from 'react-moralis';
 // const secrets = require('../secrets.json');
 
+
+
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -174,7 +176,7 @@ function MyApp({ Component, pageProps }) {
         />
         <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
       </Head>
-      <MoralisProvider appId={process.env.APPID} serverUrl={process.env.SERVERURL}>
+      <MoralisProvider appId={process.env.NEXT_PUBLIC_APPID} serverUrl={process.env.NEXT_PUBLIC_SERVERURL}>
         <Component {...pageProps} />
       </MoralisProvider>
     </>

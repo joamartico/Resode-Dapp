@@ -1,6 +1,6 @@
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { MoralisProvider, useMoralis } from 'react-moralis';
+import {  useMoralis } from 'react-moralis';
 import { Redirect, Route } from 'react-router-dom';
 import Context from './Context';
 import Main from './screens/Main';
@@ -18,9 +18,11 @@ import {
 import { useEffect, useState } from 'react';
 import ResodeContractJSON from '../truffle/build/contracts/Resode.json';
 
+
 const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading, Moralis } = useMoralis();
   const [resodeContract, setResodeContract] = useState();
+
 
   async function loadContracts(web3Provider) {
     const networkId = await web3Provider.eth.net.getId();
