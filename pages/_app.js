@@ -10,6 +10,8 @@ import '@ionic/react/css/display.css';
 
 import '../styles/global.css';
 import '../styles/variables.css';
+import { MoralisProvider } from 'react-moralis';
+const secrets = require('../secrets.json');
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -35,11 +37,11 @@ function MyApp({ Component, pageProps }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#f2f1f6"></meta>
+        <meta name="theme-color" content="#fff"></meta>
 
         {/* ICONS */}
         <link rel="icon" href="/favicon-196.png" />
-        <link rel="apple-touch-icon" href="/apple-icon-180.png"  />
+        <link rel="apple-touch-icon" href="/apple-icon-180.png" />
         <link
           rel="apple-touch-startup-image"
           href="/apple-splash-2048-2732.jpg"
@@ -172,7 +174,9 @@ function MyApp({ Component, pageProps }) {
         />
         <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
       </Head>
-      <Component {...pageProps} />
+      <MoralisProvider appId={secrets.appId} serverUrl={secrets.serverUrl}>
+        <Component {...pageProps} />
+      </MoralisProvider>
     </>
   );
 }
