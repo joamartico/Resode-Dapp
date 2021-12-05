@@ -27,7 +27,6 @@ const Main = () => {
     // values: ['postId', 'contentId', 'postOwner', 'contentUri'],
   }).reverse();
 
-  console.log(posts);
 
   const categories = useQuery({
     query: 'Categories',

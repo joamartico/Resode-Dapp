@@ -16,7 +16,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
     query: 'Votes',
     actualValue: 'postId',
     wantedValue: postId,
-    values: [postVotes],
+    // values: [postVotes],
     live: true,
   });
 
@@ -27,6 +27,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
   }
 
   async function getPostVoteStatus() {
+    console.log("votes: ",votes)
     postVotes.map(vote => {
       console.log('vote: ', vote);
       if (vote.voter == walletAddress) {
@@ -37,9 +38,10 @@ const Post = ({ postOwner, contentUri, postId }) => {
 
   useEffect(() => {
     resodeContract.methods.postRegistry(postId).call().then(res => setVotes(res.votes));
+    // resodeContract.methods.voteRegistry(walletAddress).call().then(res => console.log("id: ",postId, "voted?: ", res));
     // if (!postVotes?.length) return null;
     getPostVoteStatus();
-  }, [postVotes]);
+  }, [postVotes, walletAddress]);
 
   useEffect(() => {
     fetchIPFSDOC();
@@ -47,7 +49,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
 
   function vote(upOrDown) {
     resodeContract.methods
-      .vote(postId, upOrDown == 'up' ? 1 : -1, upOrDown == 'up' ? true : false)
+      .vote(postId, 1, upOrDown == 'up' ? true : false)
       .send({ from: walletAddress });
   }
 
