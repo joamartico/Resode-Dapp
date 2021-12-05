@@ -10,12 +10,13 @@ const Post = ({ postOwner, contentUri, postId }) => {
   const { walletAddress, resodeContract } = useGlobalState();
   const [postContent, setPostContent] = useState();
   const [voteStatus, setVoteStatus] = useState();
+  const [votes, setVotes] = useState()
 
   const postVotes = useQuery({
     query: 'Votes',
     actualValue: 'postId',
     wantedValue: postId,
-    values: [ postVotes ],
+    values: [postVotes],
     live: true,
   });
 
@@ -27,6 +28,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
 
   async function getPostVoteStatus() {
     postVotes.map(vote => {
+      console.log('vote: ', vote);
       if (vote.voter == walletAddress) {
         setVoteStatus(vote.up ? 'up' : 'down');
       }
@@ -34,25 +36,25 @@ const Post = ({ postOwner, contentUri, postId }) => {
   }
 
   useEffect(() => {
-    console.log('votes: ', postVotes);
-    if (!postVotes?.length) return null;
+    resodeContract.methods.postRegistry(postId).call().then(res => setVotes(res.votes));
+    // if (!postVotes?.length) return null;
+    getPostVoteStatus();
   }, [postVotes]);
 
   useEffect(() => {
     fetchIPFSDOC();
   }, []);
 
-  function vote(upOrDown){
-    resodeContract.methods.vote(
-      postId,
-      upOrDown == 'up' ? 1 : -1,
-      upOrDown == 'up' ? true : false
-  ).send({ from: walletAddress }) 
+  function vote(upOrDown) {
+    resodeContract.methods
+      .vote(postId, upOrDown == 'up' ? 1 : -1, upOrDown == 'up' ? true : false)
+      .send({ from: walletAddress });
   }
 
   return (
     <Card>
       <Padding>
+        {/* <p>{postOwner}</p> */}
         <Title>{postContent?.title}</Title>
         <p>{postContent?.text}</p>
         <Row>
@@ -70,7 +72,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
             iconColor={voteStatus === 'down' ? COLORS.primary : '#cacaca'}
             onClick={() => vote('down')}
           />
-          <Text>Votes: +23</Text>
+          <Text color="#aaa">Votes: {votes}</Text>
         </Row>
       </Padding>
     </Card>

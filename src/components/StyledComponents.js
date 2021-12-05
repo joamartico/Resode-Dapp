@@ -83,4 +83,6 @@ export const Icon = styled(IonIcon)`
 export const Text = styled.p`
   display: block;
   margin: auto 0;
+  color: ${({ color }) => (color && color)};
+
 `;

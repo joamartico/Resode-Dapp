@@ -21,7 +21,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 // const fs = require('fs');
-// const mnemonic = require('../secrets.json').mnemonic;
+const mnemonic = require('../secrets.json').mnemonic;
 
 module.exports = {
   /**
@@ -60,7 +60,7 @@ module.exports = {
     ropsten: {
       provider: () =>
         new HDWalletProvider(
-          process.env.MNEMONIC,
+          mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/ropsten'
         ),
       network_id: 3, // Ropsten's id
@@ -73,7 +73,7 @@ module.exports = {
     kovan: {
       provider: () =>
         new HDWalletProvider(
-          process.env.MNEMONIC,
+          mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan'
         ),
       network_id: 42, // Kovan's id
@@ -86,7 +86,7 @@ module.exports = {
     rinkeby: {
       provider: () =>
         new HDWalletProvider(
-          process.env.MNEMONIC,
+          mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby'
         ),
       network_id: 4, // Rinkeby's id
@@ -99,7 +99,7 @@ module.exports = {
     goerli: {
       provider: () =>
         new HDWalletProvider(
-          process.env.MNEMONIC,
+          mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/goerli'
         ),
       network_id: 5, // Goerli's id
@@ -112,7 +112,7 @@ module.exports = {
     mumbai: {
       provider: () =>
         new HDWalletProvider(
-          process.env.MNEMONIC,
+          mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/polygon/mumbai'
         ),
       network_id: 80001, // Polygon Mumbai's id

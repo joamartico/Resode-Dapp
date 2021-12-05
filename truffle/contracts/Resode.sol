@@ -34,11 +34,11 @@ contract Resode {
         int40 votes;
     }
 
-    mapping(bytes32 => Post) postRegistry;
-    mapping(bytes32 => string) categoryRegistry;
-    mapping(bytes32 => string) contentRegistry; // array de urls a guardar en IPFS
-    mapping(address => mapping(bytes32 => uint80)) reputationRegistry; // cada address tiene una reputacion (uint80) en cada categoría (bytes32)
-    mapping(address => mapping(bytes32 => bool)) voteRegistry; // cada address tiene un registro de cada postId al que votó
+    mapping(bytes32 => Post) public postRegistry;
+    mapping(bytes32 => string) public categoryRegistry;
+    mapping(bytes32 => string) public contentRegistry; // array de urls a guardar en IPFS
+    mapping(address => mapping(bytes32 => uint80)) public reputationRegistry; // cada address tiene una reputacion (uint80) en cada categoría (bytes32)
+    mapping(address => mapping(bytes32 => bool)) public voteRegistry; // cada address tiene un registro de cada postId al que votó
 
     function createPost(
         bytes32 _categoryId,
