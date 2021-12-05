@@ -65,6 +65,10 @@ ion-modal {
   margin-top: -50px !important;
 }
 
+ion-toast {
+  height: 92%;
+}
+
 ion-searchbar .searchbar-clear-button.sc-ion-searchbar-ios {
   background-color: #ededed;
   padding-right: 30px;

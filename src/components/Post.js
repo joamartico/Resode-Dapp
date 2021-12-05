@@ -1,3 +1,4 @@
+import { useIonToast } from '@ionic/react';
 import { arrowUpCircle, chevronDownCircle, chevronUpCircle, home, thumbsUp } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -10,7 +11,8 @@ const Post = ({ postOwner, contentUri, postId }) => {
   const { walletAddress, resodeContract } = useGlobalState();
   const [postContent, setPostContent] = useState();
   const [voteStatus, setVoteStatus] = useState();
-  const [votes, setVotes] = useState()
+  const [votes, setVotes] = useState();
+  const [present] = useIonToast();
 
   const postVotes = useQuery({
     query: 'Votes',
@@ -27,7 +29,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
   }
 
   async function getPostVoteStatus() {
-    console.log("votes: ",votes)
+    console.log('votes: ', votes);
     postVotes.map(vote => {
       console.log('vote: ', vote);
       if (vote.voter == walletAddress) {
@@ -37,7 +39,10 @@ const Post = ({ postOwner, contentUri, postId }) => {
   }
 
   useEffect(() => {
-    resodeContract.methods.postRegistry(postId).call().then(res => setVotes(res.votes));
+    resodeContract.methods
+      .postRegistry(postId)
+      .call()
+      .then(res => setVotes(res.votes));
     // resodeContract.methods.voteRegistry(walletAddress).call().then(res => console.log("id: ",postId, "voted?: ", res));
     // if (!postVotes?.length) return null;
     getPostVoteStatus();
@@ -47,7 +52,23 @@ const Post = ({ postOwner, contentUri, postId }) => {
     fetchIPFSDOC();
   }, []);
 
-  function vote(upOrDown) {
+  async function vote(upOrDown) {
+    if (await walletAddress == postOwner) {
+      await present({
+        message: "You can't vote on your own post",
+        color: 'danger',
+        duration: 2000,
+      });
+      return null;
+    }
+    if (await voteStatus) {
+      await present({
+        message: "You've already voted on this post",
+        color: 'danger',
+        duration: 2000,
+      });
+      return null;
+    }
     resodeContract.methods
       .vote(postId, 1, upOrDown == 'up' ? true : false)
       .send({ from: walletAddress });
