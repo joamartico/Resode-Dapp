@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#fff"></meta>
 
         {/* ICONS */}
-        <link rel="icon" href="/favicon-196.png" />
+        <link rel="icon" href="/icon.png" />
         <link rel="apple-touch-icon" href="/apple-icon-180.png" />
         <link
           rel="apple-touch-startup-image"
