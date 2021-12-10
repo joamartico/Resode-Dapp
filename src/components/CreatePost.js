@@ -28,17 +28,17 @@ const CreatePost = () => {
   };
 
   async function onSubmit() {
-    if(title == "" || text == "") {
+    if (title == '' || text == '') {
       present({
-        message: "Please fill all fields",
+        message: 'Please fill all fields',
         duration: 2000,
-        color: "danger"
+        color: 'danger',
       });
-      return null
+      return null;
     }
     const contentURI = await processContent();
 
-    await resodeContract.methods
+    await resodeContract?.methods
       .createPost(selectedCategory.id, '0x91', contentURI)
       .send({ from: walletAddress })
       .catch(alert);

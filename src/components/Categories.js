@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
-import { useGlobalState } from "../Context";
-import { isMobile } from "../helpers/isMobile";
+import { useGlobalState } from '../Context';
+import { isMobile } from '../helpers/isMobile';
 
 const Categories = ({ categories }) => {
   const { setSelectedCategory, selectedCategory } = useGlobalState();
@@ -33,12 +33,10 @@ const ScrollX = styled.div`
     display: none;
   }
   display: flex;
-  margin-top: ${() => isMobile ? "100px" : "3%"};
+  margin-top: ${() => (isMobile ? '100px' : '3%')};
   z-index: 9999999999999;
 `;
 export default Categories;
-
-
 
 const Tab = styled.div`
   background: ${({ active }) => (active ? COLORS.primary : 'none')};

@@ -39,11 +39,11 @@ const Post = ({ postOwner, contentUri, postId }) => {
   }
 
   useEffect(() => {
-    resodeContract.methods
+    resodeContract?.methods
       .postRegistry(postId)
       .call()
       .then(res => setVotes(res.votes));
-    // resodeContract.methods.voteRegistry(walletAddress).call().then(res => console.log("id: ",postId, "voted?: ", res));
+    // resodeContract?.methods.voteRegistry(walletAddress).call().then(res => console.log("id: ",postId, "voted?: ", res));
     // if (!postVotes?.length) return null;
     getPostVoteStatus();
   }, [postVotes, walletAddress]);
@@ -53,7 +53,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
   }, []);
 
   async function vote(upOrDown) {
-    if (await walletAddress == postOwner) {
+    if ((await walletAddress) == postOwner) {
       await present({
         message: "You can't vote on your own post",
         color: 'danger',
@@ -69,7 +69,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
       });
       return null;
     }
-    resodeContract.methods
+    resodeContract?.methods
       .vote(postId, 1, upOrDown == 'up' ? true : false)
       .send({ from: walletAddress });
   }

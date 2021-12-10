@@ -16,7 +16,7 @@ import { isMobile } from '../helpers/isMobile';
 import useQuery from '../hooks/useQuery';
 
 const Main = () => {
-  const { selectedCategory } = useGlobalState();
+  const { selectedCategory, resodeContract } = useGlobalState();
 
   const posts = useQuery({
     query: 'Posts',
@@ -64,7 +64,7 @@ const Main = () => {
               ))}
             </Col70>
 
-            {!isMobile && (
+            {!isMobile && resodeContract &&(
               <Col30>
                 <Padding>
                   <YourReputation rep="rep" />
