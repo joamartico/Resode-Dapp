@@ -1,19 +1,15 @@
 import { useMoralis } from 'react-moralis';
 import { getEllipsisTxt } from '../helpers/formatters';
 import BlockieAvatar from './BlockieAvatar';
-import {  useState } from 'react';
+import { useState } from 'react';
 import Address from './Address';
-// import { SelectOutlined } from "@ant-design/icons";
 import { getExplorer } from '../helpers/networks';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import { IonButton, IonIcon, IonModal } from '@ionic/react';
-import { Button, Icon, Padding, Row } from './StyledComponents';
+import { Button, Icon, Padding, Row, Text } from './StyledComponents';
 import { closeOutline, openOutline } from 'ionicons/icons';
-import { useGlobalState } from "../Context";
-
-// console.log('#08e41a: ', fromHexToRGB('#08e41a'));
-
+import { useGlobalState } from '../Context';
 
 const Account = () => {
   const { authenticate, isAuthenticated, logout } = useMoralis();
@@ -30,7 +26,7 @@ const Account = () => {
         // chainId: 42, // Kovan
         // chainId: 3, // Ropsten
         // chainId: 5, // Goerli
-        signingMessage: 'Welcome! ',
+        // signingMessage: 'Welcome! ',
       });
     }
   }
@@ -38,7 +34,7 @@ const Account = () => {
   if (!isAuthenticated) {
     return (
       <AccountButton authenticate onClick={onAuthenticate}>
-        <Text authenticate>Connect Wallet</Text>
+        <AuthText authenticate>Connect Wallet</AuthText>
       </AccountButton>
     );
   }
@@ -46,7 +42,8 @@ const Account = () => {
   return (
     <>
       <AccountButton onClick={() => setIsModalVisible(true)}>
-        <Text>{getEllipsisTxt(walletAddress, 6)}</Text>
+        {/* <Text>{getEllipsisTxt(walletAddress, 6)}</Text> */}
+        <Address/>
         <BlockieAvatar address={walletAddress} scale={3} />
       </AccountButton>
 
@@ -58,18 +55,21 @@ const Account = () => {
         onDidDismiss={() => setIsModalVisible(false)}
         width="400px"
       >
-        <Padding spaced>
-          <Icon
-            style={{ position: 'absolute', top: 15, right: 15 }}
-            icon={closeOutline}
-            size="25"
-            color="#000"
-            onClick={() => setIsModalVisible(false)}
-          />
-          <h3>Account</h3>
+        <Padding spaced pb="0px" pt="0px">
+          <Row spaced>
+            <Text size={25} weight={500}>Account</Text>
+
+            <Icon
+              // style={{ position: 'absolute', top: 15, right: 15 }}
+              icon={closeOutline}
+              size="25"
+              color="#000"
+              onClick={() => setIsModalVisible(false)}
+            />
+          </Row>
 
           <Card>
-            <Address avatar="left" size={6} copyable style={{ fontSize: '20px' }} />
+            <Address avatar="left" size={4} copyable />
             <div
               style={{
                 marginTop: '10px',
@@ -142,7 +142,7 @@ const AccountButton = styled.div`
   margin: 10px 0px;
 `;
 
-const Text = styled.p`
+const AuthText = styled.p`
   margin: auto 0;
   color: ${({ authenticate }) => (authenticate ? '#fff' : COLORS.primary)};
   font-weight: 600;

@@ -7,7 +7,7 @@ import styled from "styled-components";
  * @returns <Blockies> JSX Elemenet
  */
 
-function BlockieAvatar({ address }) {
+function BlockieAvatar({ address, size }) {
   if (!address) return null;
 
   return (
@@ -17,7 +17,8 @@ function BlockieAvatar({ address }) {
         borderRadius: '50px',
         width: '200px',
       }}
-
+      scale={size}
+      // size={size}
     />
   );
 }
@@ -26,5 +27,5 @@ export default BlockieAvatar;
 
 const Blockie = styled(Blockies)`
     border-radius: 50px;
-    margin-left: 10px;
+    /* margin-left: 10px; */
 `;

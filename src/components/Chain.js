@@ -171,7 +171,7 @@ const Menu = styled.div`
   position: absolute;
   /* padding-right: 12px; */
   top: ${isMobile && "0" };
-  margin-top: ${isMobile ? "60px" : "50px"};
+  margin-top: ${isMobile ? "60px" : "480px"};
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
 `;
 

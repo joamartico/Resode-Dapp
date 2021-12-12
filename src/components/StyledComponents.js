@@ -53,7 +53,7 @@ export const Button = styled.div`
 export const Padding = styled.div`
   width: 90%;
   height: 100%;
-  height: fit-content;
+  /* height: fit-content; */
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -68,6 +68,7 @@ export const Row = styled.div`
   width: ${({ width }) => width || '100%'};
   align-items: center;
   align-items: flex-start;
+  justify-content: ${({ spaced }) => spaced && 'space-between'};
 `;
 
 export const Icon = styled(IonIcon)`
@@ -82,7 +83,8 @@ export const Icon = styled(IonIcon)`
 
 export const Text = styled.p`
   display: block;
-  margin: auto 0;
-  color: ${({ color }) => (color && color)};
-
+  /* margin: auto 0; */
+  color: ${({ color }) => color || '#000'} !important;
+  font-size: ${({ size }) => size + 'px'};
+  font-weight: ${({ weight }) => weight && weight};
 `;

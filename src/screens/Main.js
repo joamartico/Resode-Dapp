@@ -1,4 +1,4 @@
-import { IonPage, IonHeader, IonContent } from '@ionic/react';
+import { IonPage, IonHeader, IonContent, IonList } from '@ionic/react';
 
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -27,7 +27,6 @@ const Main = () => {
     // values: ['postId', 'contentId', 'postOwner', 'contentUri'],
   }).reverse();
 
-
   const categories = useQuery({
     query: 'Categories',
     values: ['categoryId', 'categoryName'],
@@ -49,7 +48,7 @@ const Main = () => {
 
       <IonContent fullscreen className="scroll">
         <Categories categories={categories} />
-        <Padding pt="0" pb="170px">
+        <Padding pt="0">
           <Row>
             <Col70>
               <CreatePost />
@@ -64,7 +63,7 @@ const Main = () => {
               ))}
             </Col70>
 
-            {!isMobile && resodeContract &&(
+            {!isMobile && resodeContract && (
               <Col30>
                 <Padding>
                   <YourReputation rep="rep" />
@@ -85,6 +84,7 @@ const Col70 = styled.div`
   width: ${isMobile ? '100%' : '70%'};
   width: 100%;
   padding-right: ${isMobile ? '0' : '40px'};
+  padding-bottom: ${isMobile ? '90px' : '60px'};
 `;
 const Col30 = styled.div`
   width: 550px;

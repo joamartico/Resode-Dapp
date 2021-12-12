@@ -19,7 +19,10 @@ const Sidebar = ({ tabs }) => {
   return (
     <Wrapper className="Sidebar">
       <Padding>
-        <AppTitle>Resode</AppTitle>
+        <Row h={120}>
+          <Image src="/icon.png" alt="icon" />
+          <AppTitle>Resode</AppTitle>
+        </Row>
 
         <WalletAccount>
           <Account />
@@ -35,12 +38,7 @@ const Sidebar = ({ tabs }) => {
             key={index}
             onClick={() => router.push(tab.url, 'none', 'replace')}
           >
-            <Icon
-              icon={tab.icon}
-              marginRight={8}
-              size={24}
-            />{' '}
-            {tab.label}
+            <Icon icon={tab.icon} marginRight={8} size={24} /> {tab.label}
           </Tab>
         ))}
       </Padding>
@@ -50,6 +48,14 @@ const Sidebar = ({ tabs }) => {
 
 export default Sidebar;
 
+const Image = styled.img`
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  display: flex;
+  margin-right: 10px;
+`;
+
 const WalletAccount = styled.div`
   margin-bottom: 40px;
   margin-top: -10px;
@@ -57,8 +63,8 @@ const WalletAccount = styled.div`
 `;
 
 const AppTitle = styled.h1`
-  margin-top: 5%;
-  font-size: 40px;
+  /* margin-top: 5%; */
+  font-size: 38px;
   font-weight: 700;
 `;
 
@@ -87,4 +93,7 @@ const Tab = styled.div`
 const Row = styled.div`
   width: 100%;
   display: flex;
+  /* height: 80px; */
+  align-items: center;
+  height: ${({ h }) => h}px;
 `;

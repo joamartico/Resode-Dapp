@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import { useGlobalState } from '../Context';
 import useQuery from '../hooks/useQuery';
+import Address from './Address';
 import { Card, Icon, Padding, Row, Text } from './StyledComponents';
 
 const Post = ({ postOwner, contentUri, postId }) => {
@@ -76,8 +77,8 @@ const Post = ({ postOwner, contentUri, postId }) => {
 
   return (
     <Card>
-      <Padding>
-        {/* <p>{postOwner}</p> */}
+      <Padding pt="15px" pb="15px">
+        <Address address={postOwner} avatar="left" size={3} />
         <Title>{postContent?.title}</Title>
         <p>{postContent?.text}</p>
         <Row>
@@ -109,5 +110,6 @@ const Title = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
 
-  margin-bottom: -5px;
+  margin-bottom: -15px;
+  margin-top: 5px;
 `;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useGlobalState } from '../Context';
+import { Text } from "./StyledComponents";
 
 const YourReputation = () => {
   const { selectedCategory, walletAddress, resodeContract } = useGlobalState();
@@ -11,7 +12,7 @@ const YourReputation = () => {
     resodeContract?.methods.reputationRegistry(walletAddress, selectedCategory.id).call().then(res => setReputation(res))
   }, [walletAddress, selectedCategory])
 
-  return <div>Your reputation in "{selectedCategory.name}"" Category is {reputation}</div>;
+  return <Text weight="bold" >Your reputation in "{selectedCategory.name}" category is {reputation}</Text>;
 };
 
 export default YourReputation;

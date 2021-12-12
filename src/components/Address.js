@@ -6,11 +6,12 @@ import { useGlobalState } from '../Context';
 import BlockieAvatar from './BlockieAvatar';
 import styled from 'styled-components';
 
-function Address({copyable, size, avatar }) {
+function Address({ copyable, size, avatar, address }) {
   const { walletAddress } = useGlobalState();
-  const [isClicked, setIsClicked] = useState(false);
+  address = address || walletAddress;
+  if (!address) return null;
 
-  if (!walletAddress) return null;
+  const [isClicked, setIsClicked] = useState(false);
 
   const Copy = () => (
     <svg
@@ -39,13 +40,21 @@ function Address({copyable, size, avatar }) {
 
   return (
     <Wrapper>
-      {avatar === 'left' && <BlockieAvatar address={walletAddress} size={7} />}
-      <p>{size ? getEllipsisTxt(walletAddress, size) : walletAddress}</p>
-      {avatar === 'right' && <Blockie address={walletAddress} size={7} />}
+      {avatar === 'left' && <BlockieAvatar address={address} size={size} />}
+      <Text size={size}>{getEllipsisTxt(address)}</Text>
+      {avatar === 'right' && <Blockie address={address} size={size} />}
       {copyable && (isClicked ? <Check /> : <Copy />)}
     </Wrapper>
   );
 }
+
+const Text = styled.p`
+  /* font-size: 14px; */
+  /* font-weight: 600; */
+  font-size: ${({ size }) => size * 5 + "px"};
+  /* color: #70727c; */
+  margin: 0 10px;
+`;
 
 const Wrapper = styled.div`
   height: 36px;

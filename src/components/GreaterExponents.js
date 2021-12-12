@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card, Padding } from './StyledComponents';
+import { Card, Padding, Text } from './StyledComponents';
 
 const GreaterExponents = () => {
   return (
-    <div>
+    <Text weight="bold" size="27">
       Greater exponents
-    </div>
+    </Text>
   );
 };
 

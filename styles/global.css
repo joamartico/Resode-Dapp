@@ -43,12 +43,14 @@ html {
 
 ion-list {
   /* height: 100%; */
-  width: 100vw;
+  /* width: 100vw; */
   padding-bottom: calc(env(safe-area-inset-bottom) + 100px) !important;
 }
 
 ion-content {
   --background: none;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 100px) !important;
+
 }
 
 a,
@@ -63,6 +65,9 @@ a:active,
 ion-modal {
   padding-bottom: 50px !important;
   margin-top: -50px !important;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
 ion-toast {
