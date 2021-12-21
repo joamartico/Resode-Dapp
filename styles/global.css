@@ -42,9 +42,13 @@ html {
 }
 
 ion-list {
-  /* height: 100%; */
-  /* width: 100vw; */
-  padding-bottom: calc(env(safe-area-inset-bottom) + 100px) !important;
+  width: 100%;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 60px) !important;
+  background: none !important;
+  --background: none !important;
+  max-width: 700px;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 ion-content {

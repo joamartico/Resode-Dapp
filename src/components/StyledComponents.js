@@ -1,4 +1,4 @@
-import { IonIcon } from '@ionic/react';
+import { IonIcon, IonList } from '@ionic/react';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 
@@ -87,4 +87,9 @@ export const Text = styled.p`
   color: ${({ color }) => color || '#000'} !important;
   font-size: ${({ size }) => size + 'px'};
   font-weight: ${({ weight }) => weight && weight};
+`;
+
+export const Scroll = styled(IonList)`
+  width: 92%;
+  padding: 4%;
 `;

@@ -9,7 +9,7 @@ import CreatePost from '../components/CreatePost';
 import GreaterExponents from '../components/GreaterExponents';
 import NativeBalance from '../components/NativeBalance';
 import Post from '../components/Post';
-import { Padding, Row } from '../components/StyledComponents';
+import { Padding, Row, Scroll } from '../components/StyledComponents';
 import YourReputation from '../components/YourReputation';
 import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
@@ -45,6 +45,7 @@ const Main = () => {
       // 'postVotes',
       'up',
     ],
+    onChange: walletAddress,
     live: true,
   });
  
@@ -65,7 +66,7 @@ const Main = () => {
 
       <IonContent fullscreen className="scroll">
         <Categories categories={categories} />
-        <Padding pt="0">
+        <Scroll>
           <Row>
             <Col70>
               <CreatePost />
@@ -91,7 +92,7 @@ const Main = () => {
               </Col30>
             )}
           </Row>
-        </Padding>
+        </Scroll>
       </IonContent>
     </IonPage>
   );
