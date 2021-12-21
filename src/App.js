@@ -36,7 +36,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    if (window.ethereum) {
+    if (window.ethereum == "imposible") {
       getContract();
     } else {
       getContractWithoutMetamask();

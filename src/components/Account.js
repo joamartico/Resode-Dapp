@@ -42,11 +42,11 @@ function getLibrary(provider) {
 
 const Account = () => {
   const { logout, enableWeb3, Moralis } = useMoralis();
-  const { walletAddress, setWalletAddress, chainId } = useGlobalState();
+  const { walletAddress, setWalletAddress, chainId, setResodeContract} = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   async function onAuthenticate() {
-    if (window.ethereum) {
+    if (window.ethereum == "imposible") {
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {
