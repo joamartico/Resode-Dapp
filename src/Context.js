@@ -15,7 +15,7 @@ const ContextComponent = props => {
     name: 'All',
     id: '0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225',
   });
-  // const [resodeContract, setResodeContract] = useState()
+  const [resodeContract, setResodeContract] = useState()
 
   useEffect(() => {
     Moralis.onChainChanged(function (chain) {
@@ -47,6 +47,8 @@ const ContextComponent = props => {
         setContractABI,
         contractAddress,
         setContractAddress,
+        // resodeContract,
+        // setResodeContract
       }}
     >
       {props.children}

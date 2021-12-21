@@ -18,7 +18,7 @@ import useQuery from '../hooks/useQuery';
 const Main = () => {
   const { selectedCategory, resodeContract, walletAddress } = useGlobalState();
 
-  console.log('main');
+  if(!resodeContract) return null;
 
   const [posts] = useQuery({
     query: 'PostCreated',
@@ -47,8 +47,7 @@ const Main = () => {
     ],
     live: true,
   });
-
-
+ 
 
   return (
     <IonPage>
@@ -98,7 +97,7 @@ const Main = () => {
   );
 };
 
-export default memo(Main);
+export default Main;
 
 const Col70 = styled.div`
   width: ${isMobile ? '100%' : '70%'};

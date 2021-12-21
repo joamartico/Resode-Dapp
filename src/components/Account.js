@@ -8,7 +8,6 @@ import { IonModal } from '@ionic/react';
 import { Button, Icon, Padding, Row, Text } from './StyledComponents';
 import { closeOutline, openOutline } from 'ionicons/icons';
 
-
 import { useEffect, useState, useRef } from 'react';
 import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
@@ -16,7 +15,8 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { Web3Provider } from '@ethersproject/providers';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { loadContract } from '../helpers/loadContract';
-import useGlobalState from "../hooks/useGlobalState";
+import useGlobalState from '../hooks/useGlobalState';
+import { useContract } from '../hooks/useContract';
 
 const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
@@ -42,29 +42,21 @@ function getLibrary(provider) {
 
 const Account = () => {
   const { logout, enableWeb3, Moralis } = useMoralis();
-  const { walletAddress, setWalletAddress, chainId, setResodeContract } = useGlobalState();
+  const { walletAddress, setWalletAddress, chainId } = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   async function onAuthenticate() {
     if (window.ethereum) {
-      // authenticate({ signingMessage: 'Welcome!' });
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      
       setWalletAddress(addresses[0].toUpperCase());
     } else {
-      // authenticate({
-      //   provider: 'walletconnect',
-      //   chainId: 4, // Rinkeby
-      // });
-      //
-
       await setLatestConnector(ConnectorNames.WalletConnect);
       await setLatestOp(W3Operations.Connect);
       await web3React.activate(wcConnector);
       await enableWeb3({ provider: 'walletconnect' });
       const contract = await loadContract(Moralis.web3);
       await setResodeContract(contract);
-      await console.log("NEW CONTRACT: ", contract)
+      // await useContract(Moralis.web3);
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
     }
@@ -170,7 +162,7 @@ const Account = () => {
             outlined
             onClick={() => {
               logout();
-              setWalletAddress()
+              setWalletAddress();
               setIsModalVisible(false);
             }}
           >

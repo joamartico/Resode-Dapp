@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useContract } from './hooks/useContract';
 import { loadContract } from './helpers/loadContract';
 
+
 const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading, Moralis } = useMoralis();
   const [resodeContract, setResodeContract] = useState();
@@ -26,23 +27,27 @@ const App = () => {
   async function getContract() {
     await enableWeb3();
     const contract = await loadContract(new Moralis.Web3(window.ethereum));
-    await console.log('newContract (metamask)', contract);
     await setResodeContract(contract);
-    console.log("setResodeContract")
+  }
+  async function getContractWithoutMetamask() {
+    await enableWeb3({ provider: 'walletconnect' });
+    const contract = await loadContract(new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby'));
+    await setResodeContract(contract);
   }
 
   useEffect(() => {
     if (window.ethereum) {
       getContract();
-      // if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
     } else {
-      if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) {
-        // enableWeb3({ provider: 'walletconnect' }).then(() => loadContracts(Moralis.web3))
-      }
+      getContractWithoutMetamask();
     }
   }, [isAuthenticated, isWeb3Enabled]);
 
   if(!resodeContract) return null
+
+//  useContract()
+
+
 
   return (
     <Context
@@ -88,6 +93,7 @@ const App = () => {
               )}
             />
             <Route exact path="/" render={() => <Redirect to="/tabs/main" />} />
+            <Route render={() => <Redirect to="/tabs/main" />} />
           </IonRouterOutlet>
         </IonReactRouter>
       </IonApp>
