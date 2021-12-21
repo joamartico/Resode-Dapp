@@ -11,7 +11,7 @@ import '@ionic/react/css/display.css';
 import '../styles/global.css';
 import '../styles/variables.css';
 import { MoralisProvider } from 'react-moralis';
-// const secrets = require('../secrets.json');
+
 
 function MyApp({ Component, pageProps }) {
   return (

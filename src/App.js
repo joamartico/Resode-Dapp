@@ -1,6 +1,6 @@
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import {  useMoralis } from 'react-moralis';
+import { useMoralis } from 'react-moralis';
 import { Redirect, Route } from 'react-router-dom';
 import Context from './Context';
 import Main from './screens/Main';
@@ -16,46 +16,39 @@ import {
   searchOutline,
 } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
-import ResodeContractJSON from '../truffle/build/contracts/Resode.json';
-
+import { useContract } from './hooks/useContract';
+import { loadContract } from './helpers/loadContract';
 
 const App = () => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading, Moralis } = useMoralis();
   const [resodeContract, setResodeContract] = useState();
 
-
-  async function loadContracts(web3Provider) {
-    const networkId = await web3Provider.eth.net.getId();
-    const networkData = await ResodeContractJSON.networks[networkId];
-
-    if (networkData) {
-      const resodeContract = await new web3Provider.eth.Contract(
-        ResodeContractJSON.abi,
-        networkData.address
-      );
-
-      await setResodeContract(resodeContract);
-    } else {
-      alert('The network you choose with ID: ' + networkId + ' is not available for this dapp');
-    }
+  async function getContract() {
+    await enableWeb3();
+    const contract = await loadContract(new Moralis.Web3(window.ethereum));
+    await console.log('newContract (metamask)', contract);
+    await setResodeContract(contract);
+    console.log("setResodeContract")
   }
 
   useEffect(() => {
     if (window.ethereum) {
-      loadContracts(new Moralis.Web3(window.ethereum));
-      if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
+      getContract();
+      // if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
     } else {
       if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) {
-        enableWeb3({ provider: 'walletconnect' }).then(() => loadContracts(Moralis.web3))
-        
+        // enableWeb3({ provider: 'walletconnect' }).then(() => loadContracts(Moralis.web3))
       }
     }
   }, [isAuthenticated, isWeb3Enabled]);
+
+  if(!resodeContract) return null
 
   return (
     <Context
       value={{
         resodeContract,
+        setResodeContract,
       }}
     >
       <IonApp>

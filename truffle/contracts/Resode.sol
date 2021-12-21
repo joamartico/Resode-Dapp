@@ -3,11 +3,11 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract Resode {
     event PostCreated(
-        bytes32 indexed postId,
+        bytes32 postId,
         address indexed postOwner,
         bytes32 contentId,
         bytes32 indexed parentPostId,
-        bytes32 categoryId,
+        bytes32 indexed categoryId,
         string contentUri
     );
 

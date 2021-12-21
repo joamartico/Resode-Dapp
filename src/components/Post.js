@@ -3,55 +3,49 @@ import { arrowUpCircle, chevronDownCircle, chevronUpCircle, home, thumbsUp } fro
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
-import { useGlobalState } from '../Context';
+import useGlobalState from '../hooks/useGlobalState';
+import useIPFS from '../hooks/useIPFS';
 import useQuery from '../hooks/useQuery';
 import Address from './Address';
 import { Card, Icon, Padding, Row, Text } from './StyledComponents';
 
-const Post = ({ postOwner, contentUri, postId }) => {
+const Post = ({ postOwner, contentUri, postId, allVotes }) => {
   const { walletAddress, resodeContract } = useGlobalState();
-  const [postContent, setPostContent] = useState();
   const [voteStatus, setVoteStatus] = useState();
-  const [votes, setVotes] = useState();
   const [present] = useIonToast();
+  const [votes, setVotes] = useState(0);
 
-  const postVotes = useQuery({
-    query: 'Votes',
-    actualValue: 'postId',
-    wantedValue: postId,
-    // values: [postVotes],
-    live: true,
-  });
-
-  async function fetchIPFSDOC() {
-    const response = await fetch(contentUri);
-    const content = await response.json();
-    setPostContent(content);
-  }
+  const [postContent] = useIPFS(contentUri);
 
   async function getPostVoteStatus() {
-    console.log('votes: ', votes);
-    postVotes.map(vote => {
-      console.log('vote: ', vote);
-      if (vote.voter == walletAddress) {
-        setVoteStatus(vote.up ? 'up' : 'down');
-      }
+    if (!walletAddress) return null;
+
+    const voteFound = await allVotes.find(vote => {
+      console.log(
+        vote.postId,
+        '==',
+        postId,
+        '&&',
+        vote.voter.toUpperCase(),
+        '==',
+        walletAddress.toUpperCase()
+      );
+      return vote.postId == postId && vote.voter.toUpperCase() == walletAddress.toUpperCase();
     });
+    if (!voteFound) return null;
+    await console.log('VOTE STATUS of ', postId, ': ', voteFound.up ? 'up' : 'down');
+    setVoteStatus(voteFound.up ? 'up' : 'down');
   }
 
   useEffect(() => {
-    resodeContract?.methods
-      .postRegistry(postId)
-      .call()
-      .then(res => setVotes(res.votes));
-    // resodeContract?.methods.voteRegistry(walletAddress).call().then(res => console.log("id: ",postId, "voted?: ", res));
-    // if (!postVotes?.length) return null;
-    getPostVoteStatus();
-  }, [postVotes, walletAddress]);
+    resodeContract?.methods?.postRegistry(postId) &&
+      resodeContract?.methods
+        ?.postRegistry(postId)
+        .call()
+        .then(res => setVotes(res.votes));
 
-  useEffect(() => {
-    fetchIPFSDOC();
-  }, []);
+    getPostVoteStatus();
+  }, [walletAddress, resodeContract, allVotes]);
 
   async function vote(upOrDown) {
     if ((await walletAddress) == postOwner) {
@@ -71,7 +65,7 @@ const Post = ({ postOwner, contentUri, postId }) => {
       return null;
     }
     resodeContract?.methods
-      .vote(postId, 1, upOrDown == 'up' ? true : false)
+      ?.vote(postId, 1, upOrDown == 'up' ? true : false)
       .send({ from: walletAddress });
   }
 

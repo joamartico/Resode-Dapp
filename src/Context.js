@@ -3,7 +3,7 @@ import { useMoralis } from 'react-moralis';
 import ResodeContractJSON from '../truffle/build/contracts/Resode.json';
 
 
-const Context = createContext();
+export const Context = createContext();
 
 const ContextComponent = props => {
   const { web3, Moralis, user } = useMoralis();
@@ -15,6 +15,7 @@ const ContextComponent = props => {
     name: 'All',
     id: '0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225',
   });
+  // const [resodeContract, setResodeContract] = useState()
 
   useEffect(() => {
     Moralis.onChainChanged(function (chain) {
@@ -38,6 +39,7 @@ const ContextComponent = props => {
       value={{
         ...props.value,
         walletAddress,
+        setWalletAddress,
         chainId,
         selectedCategory,
         setSelectedCategory,
@@ -52,9 +54,6 @@ const ContextComponent = props => {
   );
 };
 
-export function useGlobalState() {
-  const globalState = useContext(Context);
-  return globalState;
-}
+
 
 export default ContextComponent;

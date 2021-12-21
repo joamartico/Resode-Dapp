@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { getEllipsisTxt } from '../helpers/formatters';
 
-import { useGlobalState } from '../Context';
+import useGlobalState from '../hooks/useGlobalState';
 import BlockieAvatar from './BlockieAvatar';
 import styled from 'styled-components';
 
@@ -51,7 +51,7 @@ function Address({ copyable, size, avatar, address }) {
 const Text = styled.p`
   /* font-size: 14px; */
   /* font-weight: 600; */
-  font-size: ${({ size }) => size * 5 + "px"};
+  font-size: ${({ size }) => size * 5 + 'px'};
   /* color: #70727c; */
   margin: 0 10px;
 `;

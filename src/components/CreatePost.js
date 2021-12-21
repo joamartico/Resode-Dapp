@@ -3,28 +3,45 @@ import React, { useState } from 'react';
 import { useMoralisFile } from 'react-moralis';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
-import { useGlobalState } from '../Context';
+import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 import { Button, Card, Padding } from './StyledComponents';
+import { create } from 'ipfs-http-client';
+
+const ipfs = create({
+  host: 'ipfs.infura.io',
+  port: '5001',
+  protocol: 'https',
+});
 
 const CreatePost = () => {
   const { resodeContract, walletAddress, selectedCategory, isMoibile } = useGlobalState();
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
-  const IPFSProcessor = useMoralisFile();
-  const [present, dismiss] = useIonToast();
+  const [present] = useIonToast();
 
   const processContent = async () => {
     const content = {
       title,
       text,
     };
-    const IPFSResult = await IPFSProcessor.saveFile(
-      'post.json',
-      { base64: btoa(JSON.stringify(content)) },
-      { saveIPFS: true }
-    );
-    return IPFSResult._ipfs;
+    // const IPFSResult = await IPFSProcessor.saveFile(
+    //   'post.json',
+    //   { base64: btoa(JSON.stringify(content)) },
+    //   { saveIPFS: true }
+    // );
+    // await alert('Content: ', IPFSResult._ipfs);
+    // return IPFSResult._ipfs;
+
+    const result = await ipfs.add(JSON.stringify(content));
+
+    // const result = [];
+
+    // for await (const _result of ipfs.add(content)) {
+    //   result.push(_result);
+    // }
+    const contentUri = `https://ipfs.io/ipfs/${result.path}`;
+    return contentUri;
   };
 
   async function onSubmit() {
@@ -38,10 +55,12 @@ const CreatePost = () => {
     }
     const contentURI = await processContent();
 
+    await console.log('! :' + walletAddress);
+
     await resodeContract?.methods
-      .createPost(selectedCategory.id, '0x91', contentURI)
+      ?.createPost(selectedCategory.id, '0x91', contentURI)
       .send({ from: walletAddress })
-      .catch(alert);
+      .catch(console.log);
 
     setText('');
     setTitle('');

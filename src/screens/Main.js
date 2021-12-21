@@ -1,6 +1,6 @@
 import { IonPage, IonHeader, IonContent, IonList } from '@ionic/react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import styled from 'styled-components';
 import Account from '../components/Account';
 import Categories from '../components/Categories';
@@ -11,26 +11,44 @@ import NativeBalance from '../components/NativeBalance';
 import Post from '../components/Post';
 import { Padding, Row } from '../components/StyledComponents';
 import YourReputation from '../components/YourReputation';
-import { useGlobalState } from '../Context';
+import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 import useQuery from '../hooks/useQuery';
 
 const Main = () => {
-  const { selectedCategory, resodeContract } = useGlobalState();
+  const { selectedCategory, resodeContract, walletAddress } = useGlobalState();
 
-  const posts = useQuery({
-    query: 'Posts',
+  console.log('main');
+
+  const [posts] = useQuery({
+    query: 'PostCreated',
     live: true,
-    change: [selectedCategory.id],
-    actualValue: 'categoryId',
-    wantedValue: selectedCategory.id,
-    // values: ['postId', 'contentId', 'postOwner', 'contentUri'],
-  }).reverse();
+    onChange: selectedCategory.id,
+    filter: { categoryId: selectedCategory.id },
+    values: ['postId', 'contentId', 'contentUri', 'postOwner', 'categoryId'],
+    reverse: true,
+  });
 
-  const categories = useQuery({
-    query: 'Categories',
+  const [categories] = useQuery({
+    query: 'CategoryCreated',
     values: ['categoryId', 'categoryName'],
   });
+
+  const [allVotes] = useQuery({
+    query: 'Voted',
+    values: [
+      'postId',
+      'postOwner',
+      'voter',
+      // 'reputationPostOwner',
+      // 'reputationVoter',
+      // 'postVotes',
+      'up',
+    ],
+    live: true,
+  });
+
+
 
   return (
     <IonPage>
@@ -52,13 +70,15 @@ const Main = () => {
           <Row>
             <Col70>
               <CreatePost />
-              {posts.map(post => (
+              {console.log('posts: ', posts)}
+              {posts?.map(post => (
                 <Post
                   key={post.postId}
                   postId={post.postId}
                   contentId={post.contentId}
                   postOwner={post.postOwner}
                   contentUri={post.contentUri}
+                  allVotes={allVotes}
                 />
               ))}
             </Col70>
@@ -78,7 +98,7 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default memo(Main);
 
 const Col70 = styled.div`
   width: ${isMobile ? '100%' : '70%'};

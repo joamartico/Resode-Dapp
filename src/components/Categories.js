@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
-import { useGlobalState } from '../Context';
+import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 
 const Categories = ({ categories }) => {
@@ -9,7 +9,7 @@ const Categories = ({ categories }) => {
 
   return (
     <ScrollX>
-      {categories.map(category => (
+      {categories?.map(category => (
         <Tab
           key={category.categoryId}
           active={selectedCategory.id == category.categoryId}
