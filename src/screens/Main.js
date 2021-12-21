@@ -18,7 +18,7 @@ import useQuery from '../hooks/useQuery';
 const Main = () => {
   const { selectedCategory, resodeContract, walletAddress } = useGlobalState();
 
-  if(!resodeContract) return null;
+  // if(!resodeContract) return null;
 
   const [posts] = useQuery({
     query: 'PostCreated',

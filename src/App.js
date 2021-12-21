@@ -25,12 +25,12 @@ const App = () => {
   const [resodeContract, setResodeContract] = useState();
 
   async function getContract() {
-    await enableWeb3();
+    // await enableWeb3();
     const contract = await loadContract(new Moralis.Web3(window.ethereum));
     await setResodeContract(contract);
   }
   async function getContractWithoutMetamask() {
-    await enableWeb3({ provider: 'walletconnect' });
+    // await enableWeb3({ provider: 'walletconnect' });
     const contract = await loadContract(new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby'));
     await setResodeContract(contract);
   }
