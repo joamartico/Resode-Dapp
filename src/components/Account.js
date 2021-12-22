@@ -46,7 +46,7 @@ const Account = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   async function onAuthenticate() {
-    if (window.ethereum == "imposible") {
+    if (window.ethereum) {
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {

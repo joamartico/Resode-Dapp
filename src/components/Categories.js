@@ -34,7 +34,11 @@ const ScrollX = styled.div`
   }
   display: flex;
   margin-top: ${() => (isMobile ? '100px' : '3%')};
-  z-index: 9999999999999;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  z-index: 999999;
+  
 `;
 export default Categories;
 

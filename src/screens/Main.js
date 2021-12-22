@@ -48,7 +48,6 @@ const Main = () => {
     onChange: walletAddress,
     live: true,
   });
- 
 
   return (
     <IonPage>
@@ -66,7 +65,7 @@ const Main = () => {
 
       <IonContent fullscreen className="scroll">
         <Categories categories={categories} />
-        <Scroll>
+        <Scroll pt={'0px'} pb="150px">
           <Row>
             <Col70>
               <CreatePost />
@@ -101,13 +100,14 @@ const Main = () => {
 export default Main;
 
 const Col70 = styled.div`
-  width: ${isMobile ? '100%' : '70%'};
-  width: 100%;
+  width: ${isMobile ? '100%' : '56%'};
+  /* width: 100%; */
   padding-right: ${isMobile ? '0' : '40px'};
   padding-bottom: ${isMobile ? '90px' : '60px'};
 `;
 const Col30 = styled.div`
   width: 550px;
+  width: 30%;
   position: sticky;
   right: 0;
   /* top: 0; */

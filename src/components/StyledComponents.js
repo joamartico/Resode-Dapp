@@ -58,8 +58,8 @@ export const Padding = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: ${({ spaced }) => spaced && 'space-around'};
-  padding-bottom: ${({ pb }) => (pb ? pb : '5%')};
-  padding-top: ${({ pt }) => (pt ? pt : '5%')};
+  padding-bottom: ${({ pb }) => (pb || '5%')};
+  padding-top: ${({ pt }) => (pt ||'5%')};
 `;
 
 export const Row = styled.div`
@@ -90,6 +90,14 @@ export const Text = styled.p`
 `;
 
 export const Scroll = styled(IonList)`
-  width: 92%;
-  padding: 4%;
+   width: 100%;
+  height: fit-content;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  justify-content: ${({ spaced }) => spaced && 'space-around'};
+  padding-bottom: ${({ pb }) => (pb || '5%')};
+  padding-top: ${({ pt }) => (pt ||'5%')} !important;
+  padding: 5% !important;
+
 `;
