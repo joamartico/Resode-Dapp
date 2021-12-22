@@ -65,7 +65,7 @@ const Main = () => {
 
       <IonContent fullscreen className="scroll">
         <Categories categories={categories} />
-        <Scroll pt={'0px'} pb="150px">
+        <Scroll pt={isMobile && "32%"} pb="60px">
           <Row>
             <Col70>
               <CreatePost />

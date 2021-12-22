@@ -90,14 +90,15 @@ export const Text = styled.p`
 `;
 
 export const Scroll = styled(IonList)`
-   width: 100%;
+   width: 90%;
+   min-height: 100%;
   height: fit-content;
   /* margin: auto; */
   display: flex;
   flex-direction: column;
   justify-content: ${({ spaced }) => spaced && 'space-around'};
-  padding-bottom: ${({ pb }) => (pb || '5%')};
-  padding-top: ${({ pt }) => (pt ||'5%')} !important;
   padding: 5% !important;
+  padding-bottom: ${({ pb }) => (pb || '5%')} !important;
+  padding-top: ${({ pt }) => (pt ||'5%')} !important;
 
 `;
