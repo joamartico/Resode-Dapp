@@ -33,7 +33,7 @@ const ScrollX = styled.div`
     display: none;
   }
   display: flex;
-  margin-top: ${() => (isMobile ? '100px' : '3%')};
+  margin-top: ${() => (isMobile ? '95px' : '3%')};
   background-color: transparent;
   position: absolute;
   top: 0;

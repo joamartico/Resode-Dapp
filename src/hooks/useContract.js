@@ -1,55 +1,60 @@
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
-import ResodeContractJSON from '../../truffle/build/contracts/Resode.json';
+import { useEffect } from 'react';
+import { useMoralis } from 'react-moralis';
 import useGlobalState from './useGlobalState';
 
-export async function useContract(web3Provider) {
-  const [ resodeContract, setResodeContract ] = useState();
-  // const { resodeContract, setResodeContract } = useGlobalState();
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading, Moralis } = useMoralis();
+const useContract = contractJSON => {
+  const { contract, setContract } = useGlobalState();
+  if (!contractJSON) return {contract, setContractWithWC};
+  const { isWeb3Enabled, isAuthenticated, Moralis, enableWeb3 } = useMoralis();
 
-
-  async function getContractWithProvider() {
-    // const contract = await loadContract(new Moralis.Web3(provider));
-    // await console.log('newContract (metamask)', contract);
-    // await setResodeContract(contract);
-    // console.log('setResodeContract');
-
-    await ( web3Provider? enableWeb3({ provider: 'walletconnect' }) :enableWeb3())
-      
-      
-    web3Provider = web3Provider || new Moralis.Web3(window.ethereum)
+  async function loadContract(web3Provider) {
+    if (!web3Provider.eth) return null;
     const networkId = await web3Provider.eth.net.getId();
-    const networkData = await ResodeContractJSON.networks[networkId];
+    const networkData = await contractJSON.networks[networkId];
 
     if (networkData) {
-      const _resodeContract = await new web3Provider.eth.Contract(
-        ResodeContractJSON.abi,
-        networkData.address
-      );
-
-      await setResodeContract(_resodeContract);
+      const _contract = await new web3Provider.eth.Contract(contractJSON.abi, networkData.address);
+      return _contract;
     } else {
       alert('The network you choose with ID: ' + networkId + ' is not available for this dapp');
     }
   }
 
-  async function getContractWithoutProvider() {
-    const web3 = new Moralis.Web3();
-    const _resodeContract = await new web3.eth.Contract(
-      ResodeContractJSON.abi,
-      "0x2B4b22B7555c6069378f70AB2df62A0067470e81"
-    );
-    await setResodeContract(_resodeContract);
+  async function setContractWithWC(WCProvider) {
+    const _contract = await loadContract(WCProvider);
+    await setContract(_contract);
   }
+
+  async function getContract() {
+    const _contract = await loadContract(new Moralis.Web3(window.ethereum));
+    await setContract(_contract);
+  }
+
+  async function getContractWithoutMetamask() {
+    const contract = await loadContract(
+      new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby')
+    );
+    await setContract(contract);
+    await enableWeb3({
+      provider: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby',
+    });
+  }
+
+  // async function getContractWithWC() {
+  //   await enableWeb3({ provider: 'walletconnect' });
+  //   const _contract = await loadContract(web3);
+  //   await setContract(_contract);
+  // }
 
   useEffect(() => {
     if (window.ethereum) {
-      getContractWithProvider();
+      getContract();
     } else {
-      getContractWithoutProvider();
+      getContractWithoutMetamask();
     }
-  }, []);
+  }, [isAuthenticated, isWeb3Enabled]);
 
-  return resodeContract;
-}
+  return { contract, setContractWithWC };
+};
+
+export default useContract;

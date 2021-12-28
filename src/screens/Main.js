@@ -15,10 +15,11 @@ import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 import useQuery from '../hooks/useQuery';
 
-const Main = () => {
-  const { selectedCategory, resodeContract, walletAddress } = useGlobalState();
 
-  // if(!resodeContract) return null;
+const Main = () => {
+  const { selectedCategory, contract, walletAddress } = useGlobalState();
+
+  if(!contract) return null;
 
   const [posts] = useQuery({
     query: 'PostCreated',
@@ -82,7 +83,7 @@ const Main = () => {
               ))}
             </Col70>
 
-            {!isMobile && resodeContract && (
+            {!isMobile && contract && (
               <Col30>
                 <Padding>
                   <YourReputation rep="rep" />
@@ -141,10 +142,12 @@ const Toolbar = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  --background: #fff0 !important; /* COLOR DE LA BARRA DE ARRIBA CON ITEMS*/
+  --background: none!important; /* COLOR DE LA BARRA DE ARRIBA CON ITEMS*/
   background: #fff9 !important; /* COLOR DE TODA LA BARRA */
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   z-index: 999999999999;
   height: 70px !important;
+  border-bottom: solid 1px #90909050;
+
 `;

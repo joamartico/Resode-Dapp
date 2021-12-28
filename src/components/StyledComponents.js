@@ -15,7 +15,8 @@ export const Card = styled.div`
 `;
 
 export const Button = styled.div`
-  margin-top: 5px;
+  margin-top: ${({ mt }) => mt || '5px'};
+  margin-bottom: ${({ mb }) => mb || '5px'};
   display: flex;
   justify-content: center;
   align-items: center;

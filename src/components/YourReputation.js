@@ -3,14 +3,14 @@ import useGlobalState from '../hooks/useGlobalState';
 import { Text } from './StyledComponents';
 
 const YourReputation = () => {
-  const { selectedCategory, walletAddress, resodeContract } = useGlobalState();
+  const { selectedCategory, walletAddress, contract } = useGlobalState();
   const [reputation, setReputation] = useState('');
 
   // if (!walletAddress || !selectedCategory) return null;
 
   useEffect(() => {
     walletAddress &&
-      resodeContract?.methods
+      contract?.methods
         ?.reputationRegistry(walletAddress, selectedCategory.id)
         .call()
         .then(res => setReputation(res));

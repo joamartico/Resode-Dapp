@@ -11,6 +11,8 @@ import '@ionic/react/css/display.css';
 import '../styles/global.css';
 import '../styles/variables.css';
 import { MoralisProvider } from 'react-moralis';
+import Context  from "../src/Context";
+
 
 
 function MyApp({ Component, pageProps }) {
@@ -177,7 +179,9 @@ function MyApp({ Component, pageProps }) {
         appId={process.env.NEXT_PUBLIC_APPID}
         serverUrl={process.env.NEXT_PUBLIC_SERVERURL}
       >
-        <Component {...pageProps} />
+        <Context>
+          <Component {...pageProps} />
+        </Context>
       </MoralisProvider>
     </>
   );

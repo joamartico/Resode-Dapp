@@ -37,7 +37,7 @@ html {
   left: 0;
   right: 0;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   font-family: sans-serif !important;
 }
 
@@ -122,7 +122,8 @@ ion-tab-bar {
   background: #fff9 !important; /* COLOR DE TODA LA BARRA */
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
-  border-top: solid 1px #bab9bacc;
+  border-top: solid 1px #90909050;
+
   z-index: 999999999999;
 }
 

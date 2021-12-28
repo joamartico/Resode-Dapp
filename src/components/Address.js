@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { getEllipsisTxt } from '../helpers/formatters';
 
 import useGlobalState from '../hooks/useGlobalState';
 import BlockieAvatar from './BlockieAvatar';
 import styled from 'styled-components';
+import useContract from "../hooks/useContract";
 
 function Address({ copyable, size, avatar, address }) {
-  const { walletAddress } = useGlobalState();
+  const { walletAddress, contract } = useGlobalState();
+
   address = address || walletAddress;
   if (!address) return null;
 

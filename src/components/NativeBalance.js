@@ -1,11 +1,26 @@
-import { useNativeBalance } from 'react-moralis';
+import { useEffect, useState } from "react";
+import { useMoralis, useNativeBalance } from 'react-moralis';
 import styled from 'styled-components';
+import useGlobalState from '../hooks/useGlobalState';
 
-function NativeBalance() {
-  const { data: balance } = useNativeBalance('ETH');
+const NativeBalance = () => {
+  const { web3 } = useMoralis();
+  const { walletAddress } = useGlobalState();
+  const [balance, setBalance] = useState(0)
 
-  return <RoundedDiv>{balance.formatted || "0 ETH"}</RoundedDiv>;
-}
+  useEffect(() => {
+    if(!walletAddress) return null
+    web3?.eth?.currentProvider &&
+      web3?.eth?.getBalance(walletAddress).then(async wei => {
+        let _balance = await web3.utils.fromWei(wei, 'ether');
+        _balance = await parseFloat(_balance).toFixed(2);
+        console.log('_balance: ', _balance);
+        setBalance(_balance);
+      });
+  }, [walletAddress, web3]);
+
+  return <RoundedDiv>{balance + ' ETH'}</RoundedDiv>;
+};
 
 export default NativeBalance;
 

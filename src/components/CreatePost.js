@@ -15,7 +15,7 @@ const ipfs = create({
 });
 
 const CreatePost = () => {
-  const { resodeContract, walletAddress, selectedCategory, isMoibile } = useGlobalState();
+  const { contract, walletAddress, selectedCategory, isMoibile } = useGlobalState();
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [present] = useIonToast();
@@ -57,7 +57,7 @@ const CreatePost = () => {
 
     await console.log('! :' + walletAddress);
 
-    await resodeContract?.methods
+    await contract?.methods
       ?.createPost(selectedCategory.id, '0x91', contentURI)
       .send({ from: walletAddress })
       .catch(console.log);

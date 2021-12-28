@@ -4,10 +4,10 @@ import useGlobalState from './useGlobalState';
 const useQuery = propsJSON => {
   const { query, values,live, filter, onChange, reverse } =
     propsJSON;
-  const { resodeContract } = useGlobalState();
+  const { contract } = useGlobalState();
   const [results, setResults] = useState([]);
 
-  if (!query || !resodeContract) return null;
+  if (!query || !contract) return null;
 
   useEffect(() => {
     getQuery();
@@ -15,7 +15,7 @@ const useQuery = propsJSON => {
   }, [onChange]);
 
   async function getQuery() {
-    let _results = await resodeContract.getPastEvents(query, {
+    let _results = await contract.getPastEvents(query, {
       fromBlock: 0,
       filter,
     });
@@ -32,7 +32,7 @@ const useQuery = propsJSON => {
   // let events = 0;
   async function getLiveQuery() {
     console.log('getLiveQuery');
-    await resodeContract.events[query]({
+    await contract.events[query]({
       fromBlock: 'latest',
       filter,
     }).on('data', async event => {

@@ -42,7 +42,7 @@ function getLibrary(provider) {
 
 const Account = () => {
   const { logout, enableWeb3, Moralis } = useMoralis();
-  const { walletAddress, setWalletAddress, chainId, setResodeContract} = useGlobalState();
+  const { walletAddress, setWalletAddress, chainId, setContract} = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   async function onAuthenticate() {
@@ -55,7 +55,7 @@ const Account = () => {
       await web3React.activate(wcConnector);
       await enableWeb3({ provider: 'walletconnect' });
       const contract = await loadContract(Moralis.web3);
-      await setResodeContract(contract);
+      await setContract(contract);
       // await useContract(Moralis.web3);
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
@@ -118,7 +118,7 @@ const Account = () => {
         onDidDismiss={() => setIsModalVisible(false)}
         width="400px"
       >
-        <Padding spaced pb="0px" pt="0px">
+        <Padding spaced  pt="0px">
           <Row spaced>
             <Text size={25} weight={500}>
               Account
@@ -165,6 +165,7 @@ const Account = () => {
               setWalletAddress();
               setIsModalVisible(false);
             }}
+            mt="20px"
           >
             Disconnect Wallet
           </Button>
@@ -189,12 +190,14 @@ const Card = styled.div`
 `;
 
 const StyledModal = styled(IonModal)`
-  padding: 15px !important;
+  /* padding: 15px !important; */
   font-size: 17px !important;
   font-weight: 500;
   --border-radius: 12px !important;
-  --height: 250px !important;
+  --height: 260px !important;
   --width: 420px !important;
+  --max-width: 92vw !important;
+
 `;
 
 const AccountButton = styled.div`
