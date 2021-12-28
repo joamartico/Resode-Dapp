@@ -9,7 +9,10 @@ const NativeBalance = () => {
   const [balance, setBalance] = useState(0)
 
   useEffect(() => {
-    if(!walletAddress) return null
+    if(!walletAddress) {
+      setBalance(0)
+      return null
+    }
     web3?.eth?.currentProvider &&
       web3?.eth?.getBalance(walletAddress).then(async wei => {
         let _balance = await web3.utils.fromWei(wei, 'ether');
