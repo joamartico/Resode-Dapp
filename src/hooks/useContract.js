@@ -3,8 +3,8 @@ import { useMoralis } from 'react-moralis';
 import useGlobalState from './useGlobalState';
 
 const useContract = contractJSON => {
-  const { contract, setContract } = useGlobalState();
-  if (!contractJSON) return {contract, setContractWithWC};
+  const { contract, setContract, walletAddress } = useGlobalState();
+  if (!contractJSON) return { contract, setContractWithWC };
   const { isWeb3Enabled, isAuthenticated, Moralis, enableWeb3 } = useMoralis();
 
   async function loadContract(web3Provider) {
@@ -32,6 +32,7 @@ const useContract = contractJSON => {
   }
 
   async function getContractWithoutMetamask() {
+    console.log('getContractWithoutMetamask');
     const contract = await loadContract(
       new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby')
     );
@@ -48,12 +49,15 @@ const useContract = contractJSON => {
   // }
 
   useEffect(() => {
-    if (window.ethereum  == "imposible") {
+    if (window.ethereum == 'imposible') {
       getContract();
     } else {
-      getContractWithoutMetamask();
+      !walletAddress && getContractWithoutMetamask();
     }
-  }, [isAuthenticated, isWeb3Enabled]);
+  }, [
+    isAuthenticated,
+    // isWeb3Enabled
+  ]);
 
   return { contract, setContractWithWC };
 };
