@@ -41,12 +41,15 @@ const Account = () => {
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {
-      await web3React.activate(wcConnector);
+      // await web3React.activate(wcConnector);
       await setContractWithWC();
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
+      console.log("WC: ", wcConnector, Moralis.web3.currentProvider, web3React.account, web3React.active);
     }
   }
+
+
 
   // const { active, activate, error } = web3React;
   // const [loaded, setLoaded] = useState(false);
