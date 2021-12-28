@@ -14,25 +14,14 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { Web3Provider } from '@ethersproject/providers';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { loadContract } from '../helpers/loadContract';
 import useGlobalState from '../hooks/useGlobalState';
-import { useContract } from '../hooks/useContract';
+import useContract  from '../hooks/useContract';
+import resodeContractJSON from "../../truffle/build/contracts/Resode.json";
 
-const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
 const wcConnector = new WalletConnectConnector({
   infuraId: 'm4OZrS1YYziZUSyinkROsS7F24eyk3hZknK2GYxQ',
   chainId: 4,
 });
-
-const ConnectorNames = {
-  Injected: 'injected',
-  WalletConnect: 'walletconnect',
-};
-
-const W3Operations = {
-  Connect: 'connect',
-  Disconnect: 'disconnect',
-};
 
 function getLibrary(provider) {
   const library = new Web3Provider(provider);
@@ -42,32 +31,27 @@ function getLibrary(provider) {
 
 const Account = () => {
   const { logout, enableWeb3, Moralis } = useMoralis();
-  const { walletAddress, setWalletAddress, chainId, setContract} = useGlobalState();
+  const { walletAddress, setWalletAddress, chainId} = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const {setContractWithWC} = useContract(resodeContractJSON);
+  const web3React = useWeb3React();
 
   async function onAuthenticate() {
-    if (window.ethereum) {
+    if (window.ethereum == "imposible") {
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {
-      await setLatestConnector(ConnectorNames.WalletConnect);
-      await setLatestOp(W3Operations.Connect);
       await web3React.activate(wcConnector);
       await enableWeb3({ provider: 'walletconnect' });
-      const contract = await loadContract(Moralis.web3);
-      await setContract(contract);
-      // await useContract(Moralis.web3);
+      await setContractWithWC(Moralis.web3);
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
     }
   }
 
-  const web3React = useWeb3React();
   // const { active, activate, error } = web3React;
   // const [loaded, setLoaded] = useState(false);
 
-  const [latestOp, setLatestOp] = useLocalStorage('latest_op', '');
-  const [latestConnector, setLatestConnector] = useLocalStorage('latest_connector', '');
 
   // useEffect(() => {
   //   if (latestOp == 'connect' && latestConnector == 'injected') {

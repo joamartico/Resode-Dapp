@@ -15,9 +15,7 @@ import {
   search,
   searchOutline,
 } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
 import  useContract  from './hooks/useContract';
-import { loadContract } from './helpers/loadContract';
 import resodeContractJSON from "../truffle/build/contracts/Resode.json";
 
 
