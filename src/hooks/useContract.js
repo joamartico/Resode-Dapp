@@ -49,7 +49,7 @@ const useContract = contractJSON => {
   // }
 
   useEffect(() => {
-    if (window.ethereum == 'imposible') {
+    if (window.ethereum) {
       getContract();
     } else {
       !walletAddress && getContractWithoutMetamask();

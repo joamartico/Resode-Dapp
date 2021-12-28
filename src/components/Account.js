@@ -37,7 +37,7 @@ const Account = () => {
   const web3React = useWeb3React();
 
   async function onAuthenticate() {
-    if (window.ethereum == "imposible") {
+    if (window.ethereum ) {
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {
