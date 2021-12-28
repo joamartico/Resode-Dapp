@@ -30,7 +30,7 @@ function getLibrary(provider) {
 }
 
 const Account = () => {
-  const { logout, enableWeb3, Moralis } = useMoralis();
+  const { logout, Moralis } = useMoralis();
   const { walletAddress, setWalletAddress, chainId} = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const {setContractWithWC} = useContract(resodeContractJSON);
@@ -42,8 +42,7 @@ const Account = () => {
       setWalletAddress(addresses[0].toUpperCase());
     } else {
       await web3React.activate(wcConnector);
-      await enableWeb3({ provider: 'walletconnect' });
-      await setContractWithWC(Moralis.web3);
+      await setContractWithWC();
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
     }

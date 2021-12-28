@@ -55,7 +55,6 @@ const CreatePost = () => {
     }
     const contentURI = await processContent();
 
-    await console.log('! :' + walletAddress);
 
     await contract?.methods
       ?.createPost(selectedCategory.id, '0x91', contentURI)

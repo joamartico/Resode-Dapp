@@ -20,8 +20,9 @@ const useContract = contractJSON => {
     }
   }
 
-  async function setContractWithWC(WCProvider) {
-    const _contract = await loadContract(WCProvider);
+  async function setContractWithWC() {
+    await enableWeb3({ provider: 'walletconnect' });
+    const _contract = await loadContract(Moralis.web3);
     await setContract(_contract);
   }
 

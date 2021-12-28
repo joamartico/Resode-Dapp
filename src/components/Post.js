@@ -21,19 +21,9 @@ const Post = ({ postOwner, contentUri, postId, allVotes }) => {
     if (!walletAddress) return null;
 
     const voteFound = await allVotes.find(vote => {
-      console.log(
-        vote.postId,
-        '==',
-        postId,
-        '&&',
-        vote.voter.toUpperCase(),
-        '==',
-        walletAddress.toUpperCase()
-      );
       return vote.postId == postId && vote.voter.toUpperCase() == walletAddress.toUpperCase();
     });
     if (!voteFound) return null;
-    await console.log('VOTE STATUS of ', postId, ': ', voteFound.up ? 'up' : 'down');
     setVoteStatus(voteFound.up ? 'up' : 'down');
   }
 
