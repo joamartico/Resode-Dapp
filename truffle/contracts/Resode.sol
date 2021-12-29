@@ -2,6 +2,18 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Resode {
+
+
+    constructor() {
+        addCategory('All');
+        addCategory('DeFi');
+        addCategory('Web3');
+        addCategory('Bitcoin');
+        addCategory('Ethereum');
+        addCategory('Solana');
+
+    }
+
     event PostCreated(
         bytes32 postId,
         address indexed postOwner,
@@ -112,7 +124,7 @@ contract Resode {
         );
     }
 
-    function addCategory(string calldata _categoryName) external {
+    function addCategory(string memory _categoryName) public {
         bytes32 _categoryId = keccak256(abi.encode(_categoryName));
         categoryRegistry[_categoryId] = _categoryName;
         emit CategoryCreated(_categoryId, _categoryName);

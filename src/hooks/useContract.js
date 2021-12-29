@@ -16,7 +16,16 @@ const useContract = contractJSON => {
       const _contract = await new web3Provider.eth.Contract(contractJSON.abi, networkData.address);
       return _contract;
     } else {
-      alert('The network you choose with ID: ' + networkId + ' is not available for this dapp');
+      console.log(
+        'The network you choose with ID: ' +
+          networkId +
+          ' is not available for this dapp, you are now in Kovan'
+      );
+      const _contract = await new web3Provider.eth.Contract(
+        contractJSON.abi,
+        contractJSON.networks[42].address
+      );
+      return _contract;
     }
   }
 
@@ -27,6 +36,7 @@ const useContract = contractJSON => {
   }
 
   async function getContract() {
+    await enableWeb3();
     const _contract = await loadContract(new Moralis.Web3(window.ethereum));
     await setContract(_contract);
   }

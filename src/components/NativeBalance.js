@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { useMoralis, useNativeBalance } from 'react-moralis';
 import styled from 'styled-components';
 import useGlobalState from '../hooks/useGlobalState';
 
 const NativeBalance = () => {
-  const { web3 } = useMoralis();
-  const { walletAddress } = useGlobalState();
-  const [balance, setBalance] = useState(0)
+  const { Moralis } = useMoralis();
+  const { walletAddress, chainId } = useGlobalState();
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    if(!walletAddress) {
-      setBalance(0)
-      return null
+    if (!walletAddress) {
+      setBalance(0);
+      return null;
     }
-    web3?.eth?.currentProvider &&
-      web3?.eth?.getBalance(walletAddress).then(async wei => {
-        let _balance = await web3.utils.fromWei(wei, 'ether');
-        _balance = await parseFloat(_balance).toFixed(2);
-        console.log('_balance: ', _balance);
-        setBalance(_balance);
-      });
-  }, [walletAddress, web3]);
+    Moralis.web3?.eth?.getBalance(walletAddress).then(async wei => {
+      let _balance = await Moralis.web3.utils.fromWei(wei, 'ether');
+      _balance = await parseFloat(_balance).toFixed(2);
+      console.log('WA balance: ', _balance);
+      setBalance(_balance);
+    });
+  }, [walletAddress, Moralis.web3?.eth, chainId]);
 
   return <RoundedDiv>{balance + ' ETH'}</RoundedDiv>;
 };

@@ -15,16 +15,15 @@ import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 import useQuery from '../hooks/useQuery';
 
-
 const Main = () => {
-  const { selectedCategory, contract, walletAddress } = useGlobalState();
+  const { selectedCategory, contract, walletAddress, chainId } = useGlobalState();
 
-  if(!contract) return null;
+  if (!contract) return null;
 
   const [posts] = useQuery({
     query: 'PostCreated',
     live: true,
-    onChange: selectedCategory.id,
+    onChange: [selectedCategory.id, chainId],
     filter: { categoryId: selectedCategory.id },
     values: ['postId', 'contentId', 'contentUri', 'postOwner', 'categoryId'],
     reverse: true,
@@ -66,7 +65,7 @@ const Main = () => {
 
       <IonContent fullscreen className="scroll">
         <Categories categories={categories} />
-        <Scroll pt={isMobile && "32%"} pb="60px">
+        <Scroll pt={isMobile && '32%'} pb="60px">
           <Row>
             <Col70>
               <CreatePost />
@@ -142,12 +141,11 @@ const Toolbar = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  --background: none!important; /* COLOR DE LA BARRA DE ARRIBA CON ITEMS*/
+  --background: none !important; /* COLOR DE LA BARRA DE ARRIBA CON ITEMS*/
   background: #fff9 !important; /* COLOR DE TODA LA BARRA */
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   z-index: 999999999999;
   height: 70px !important;
   border-bottom: solid 1px #90909050;
-
 `;

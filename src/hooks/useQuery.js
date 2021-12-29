@@ -12,7 +12,7 @@ const useQuery = propsJSON => {
   useEffect(() => {
     getQuery();
     live && getLiveQuery();
-  }, [onChange]);
+  }, Object.prototype.toString.call(onChange) === '[object Array]' ? [...onChange] : [onChange])
 
   async function getQuery() {
     let _results = await contract.getPastEvents(query, {
