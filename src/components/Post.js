@@ -10,7 +10,7 @@ import Address from './Address';
 import { Card, Icon, Padding, Row, Text } from './StyledComponents';
 
 const Post = ({ postOwner, contentUri, postId, allVotes }) => {
-  const { walletAddress, contract } = useGlobalState();
+  const { walletAddress, resodeContract } = useGlobalState();
   const [voteStatus, setVoteStatus] = useState();
   const [present] = useIonToast();
   const [votes, setVotes] = useState(0);
@@ -28,14 +28,14 @@ const Post = ({ postOwner, contentUri, postId, allVotes }) => {
   }
 
   useEffect(() => {
-    contract?.methods?.postRegistry(postId) &&
-      contract?.methods
+    resodeContract?.methods?.postRegistry(postId) &&
+      resodeContract?.methods
         ?.postRegistry(postId)
         .call()
         .then(res => setVotes(res.votes));
 
     getPostVoteStatus();
-  }, [walletAddress, contract, allVotes]);
+  }, [walletAddress, resodeContract, allVotes]);
 
   async function vote(upOrDown) {
     if ((await walletAddress) == postOwner) {
@@ -54,7 +54,7 @@ const Post = ({ postOwner, contentUri, postId, allVotes }) => {
       });
       return null;
     }
-    contract?.methods
+    resodeContract?.methods
       ?.vote(postId, 1, upOrDown == 'up' ? true : false)
       .send({ from: walletAddress });
   }

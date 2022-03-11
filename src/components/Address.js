@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import useContract from "../hooks/useContract";
 
 function Address({ copyable, size, avatar, address }) {
-  const { walletAddress, contract } = useGlobalState();
+  const { walletAddress } = useGlobalState();
 
   address = address || walletAddress;
   if (!address) return null;

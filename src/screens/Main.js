@@ -1,6 +1,12 @@
-import { IonPage, IonHeader, IonContent, IonList } from '@ionic/react';
+import {
+  IonPage,
+  IonHeader,
+  IonContent,
+  IonList,
+  IonRefresher,
+  IonRefresherContent,
+} from '@ionic/react';
 
-import { useState, useEffect, memo } from 'react';
 import styled from 'styled-components';
 import Account from '../components/Account';
 import Categories from '../components/Categories';
@@ -14,27 +20,31 @@ import YourReputation from '../components/YourReputation';
 import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 import useQuery from '../hooks/useQuery';
+import { useEffect } from 'react';
 
 const Main = () => {
-  const { selectedCategory, contract, walletAddress, chainId } = useGlobalState();
+  const { selectedCategory, setSelectedCategory, resodeContract, walletAddress, chainId, color } =
+    useGlobalState();
+  if (!resodeContract) return null;
 
-  if (!contract) return null;
-
-  const [posts] = useQuery({
+  const posts = useQuery({
+    contract: resodeContract,
     query: 'PostCreated',
     live: true,
-    onChange: [selectedCategory.id, chainId],
+    onChange: [selectedCategory.id],
     filter: { categoryId: selectedCategory.id },
     values: ['postId', 'contentId', 'contentUri', 'postOwner', 'categoryId'],
     reverse: true,
   });
 
-  const [categories] = useQuery({
+  const categories = useQuery({
+    contract: resodeContract,
     query: 'CategoryCreated',
     values: ['categoryId', 'categoryName'],
   });
 
-  const [allVotes] = useQuery({
+  const allVotes = useQuery({
+    contract: resodeContract,
     query: 'Voted',
     values: [
       'postId',
@@ -45,9 +55,11 @@ const Main = () => {
       // 'postVotes',
       'up',
     ],
-    onChange: walletAddress,
+    onChange: [walletAddress],
     live: true,
   });
+
+  // if (!resodeContract) return null;
 
   return (
     <IonPage>
@@ -64,7 +76,20 @@ const Main = () => {
       </IonHeader>
 
       <IonContent fullscreen className="scroll">
+        <IonRefresher
+          slot="fixed"
+          onIonRefresh={e => {
+            setTimeout(() => {
+              setSelectedCategory(prev => prev);
+              e.detail.complete();
+              console.log('done');
+            }, 1000);
+          }}
+        >
+          <IonRefresherContent />
+        </IonRefresher>
         <Categories categories={categories} />
+
         <Scroll pt={isMobile && '32%'} pb="60px">
           <Row>
             <Col70>
@@ -82,7 +107,7 @@ const Main = () => {
               ))}
             </Col70>
 
-            {!isMobile && contract && (
+            {!isMobile && resodeContract && (
               <Col30>
                 <Padding>
                   <YourReputation rep="rep" />

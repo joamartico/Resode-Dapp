@@ -12,18 +12,36 @@ import {
   homeOutline,
   person,
   personOutline,
+  pricetag,
   search,
   searchOutline,
 } from 'ionicons/icons';
-import  useContract  from './hooks/useContract';
-import resodeContractJSON from "../truffle/build/contracts/Resode.json";
+import useContract from './hooks/useContract';
+import resodeContractJSON from '../truffle/build/contracts/Resode.json';
+import resodeTokenContractJSON from '../truffle/build/contracts/ResodeToken.json';
+import resodeTokenSaleContractJSON from '../truffle/build/contracts/ResodeTokenSale.json';
 
+import TokenSale from './screens/TokenSale';
+import useColor from './hooks/useColor';
 
 const App = () => {
- useContract(resodeContractJSON)
+  const [resodeContract, setContractWithWC] = useContract(resodeContractJSON);
+  // const [resodeTokenContract] = useContract(resodeTokenContractJSON);
+  // const [resodeTokenSaleContract] = useContract(resodeTokenSaleContractJSON);
+  const [color] = useColor();
+
+  console.log('App.js color: ', color, 'resodeContract: ', resodeContract?.options.address);
+
+  
 
   return (
-
+    <Context
+      value={{
+        resodeContract,
+        setContractWithWC,
+        color,
+      }}
+    >
       <IonApp>
         <IonReactRouter>
           <IonRouterOutlet id="main">
@@ -39,16 +57,16 @@ const App = () => {
                       icon: home,
                     },
                     {
+                      url: '/tabs/tokensale',
+                      label: 'Token Sale',
+                      component: TokenSale,
+                      icon: pricetag,
+                    },
+                    {
                       url: '/tabs/search',
                       label: 'Search',
                       component: Main,
                       icon: search,
-                    },
-                    {
-                      url: '/tabs/favs',
-                      label: 'Favs',
-                      component: Main,
-                      icon: bookmark,
                     },
                     {
                       url: '/tabs/user',
@@ -65,7 +83,7 @@ const App = () => {
           </IonRouterOutlet>
         </IonReactRouter>
       </IonApp>
-    
+    </Context>
   );
 };
 

@@ -20,10 +20,10 @@ export const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 46px;
+  width: ${({ width }) => width || '100%'};
+  height: ${({ height }) => height || '46px'};
   border-radius: 14px;
-  border: 1px solid ${({ red, background }) => (red ? 'red' : background || COLORS.primary)};
+  border: 1px solid ${({ red, background }) => (red ? 'red' : background )};
   cursor: pointer;
   background: ${({ outlined, red, background }) => {
     if (outlined) {
@@ -32,7 +32,7 @@ export const Button = styled.div`
       if (red) {
         return 'red';
       } else {
-        return background || COLORS.primary;
+        return background || "linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)";
       }
     }
   }};
@@ -59,17 +59,20 @@ export const Padding = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: ${({ spaced }) => spaced && 'space-around'};
-  padding-bottom: ${({ pb }) => (pb || '5%')};
-  padding-top: ${({ pt }) => (pt ||'5%')};
+  padding-bottom: ${({ pb }) => pb || '5%'};
+  padding-top: ${({ pt }) => pt || '5%'};
 `;
 
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
-  width: ${({ width }) => width || '100%'};
+  width: 100%;
+  max-width: ${({ width }) => width && width};
+  height: ${({ height }) => height && height};
   align-items: center;
   align-items: flex-start;
   justify-content: ${({ spaced }) => spaced && 'space-between'};
+  margin-top: ${({ mt }) => mt && mt};
 `;
 
 export const Icon = styled(IonIcon)`
@@ -91,15 +94,14 @@ export const Text = styled.p`
 `;
 
 export const Scroll = styled(IonList)`
-   width: 90%;
-   min-height: 100%;
+  width: 90%;
+  min-height: 100%;
   height: fit-content;
   /* margin: auto; */
   display: flex;
   flex-direction: column;
   justify-content: ${({ spaced }) => spaced && 'space-around'};
   padding: 5% !important;
-  padding-bottom: ${({ pb }) => (pb || '5%')} !important;
-  padding-top: ${({ pt }) => (pt ||'5%')} !important;
-
+  padding-bottom: ${({ pb }) => pb || '5%'} !important;
+  padding-top: ${({ pt }) => pt || '5%'} !important;
 `;

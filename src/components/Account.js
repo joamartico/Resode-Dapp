@@ -31,9 +31,9 @@ function getLibrary(provider) {
 
 const Account = () => {
   const { logout, Moralis } = useMoralis();
-  const { walletAddress, setWalletAddress, chainId} = useGlobalState();
+  const { walletAddress, setWalletAddress, chainId, setContractWithWC} = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const {setContractWithWC} = useContract(resodeContractJSON);
+  // const {setContractWithWC} = useContract(resodeContractJSON);
   const web3React = useWeb3React();
 
   async function onAuthenticate() {

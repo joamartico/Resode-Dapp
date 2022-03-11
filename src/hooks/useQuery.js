@@ -1,24 +1,18 @@
-import { useEffect, useState } from 'react';
-import useGlobalState from './useGlobalState';
+import {  useEffect, useState } from 'react';
 
 const useQuery = propsJSON => {
-  const { query, values,live, filter, onChange, reverse } =
-    propsJSON;
-  const { contract } = useGlobalState();
+  const { query, values, live, filter, onChange, reverse, contract } = propsJSON;
+
   const [results, setResults] = useState([]);
 
-  if (!query || !contract) return null;
+  if (!query) return null;
 
-  useEffect(() => {
-    getQuery();
-    live && getLiveQuery();
-  }, Object.prototype.toString.call(onChange) === '[object Array]' ? [...onChange] : [onChange])
-
-  async function getQuery() {
-    let _results = await contract.getPastEvents(query, {
+  const getQuery = async () => {
+    let _results = await contract?.getPastEvents(query, {
       fromBlock: 0,
       filter,
     });
+    console.log('getQuery results', _results);
     await _results.map(async (result, i) => {
       await values.map(value => {
         _results[i][value] = _results[i].returnValues[value];
@@ -27,12 +21,22 @@ const useQuery = propsJSON => {
     _results = await (values ? JSON.parse(JSON.stringify(_results, values)) : _results);
     reverse ? setResults(_results.reverse()) : setResults(_results);
     return _results;
-  }
+  };
+  
+  useEffect(
+    () => {
+      getQuery();
+      console.log('getQuery', contract?.options.address);
+
+      live && getLiveQuery();
+    },
+    Object.prototype.toString.call(onChange) === '[object Array]' ? [...onChange, contract] : [onChange, contract]
+  );
 
   // let events = 0;
   async function getLiveQuery() {
     console.log('getLiveQuery');
-    await contract.events[query]({
+    await contract?.events[query]({
       fromBlock: 'latest',
       filter,
     }).on('data', async event => {
@@ -45,12 +49,10 @@ const useQuery = propsJSON => {
     });
   }
 
-  if (results) {
-    return [results];
-  } else {
-    // setResults([])
-    return [];
-  }
+  // if(!contract) return null;
+
+  return results;
+
 };
 
 export default useQuery;

@@ -82,6 +82,7 @@ const Tab = styled.div`
   background: ${({ active }) => (active ? '#d0d0d0' : 'none')};
   color: #454545;
   height: 55px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   border-radius: 6px;
