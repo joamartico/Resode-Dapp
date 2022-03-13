@@ -102,12 +102,7 @@ const TokenSale = () => {
           </p>
           <Link onClick={addTokenToMetamask} mt="50px">
             Add Token To Metamask
-            <Image
-              size="25px"
-              ml="10px"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"
-              alt="metamask"
-            />
+            <Image size="25px" ml="10px" src="/metamask.png" alt="metamask" />
           </Link>
         </Wrapper>
       </IonContent>

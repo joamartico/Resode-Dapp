@@ -4,16 +4,11 @@ import { useMoralis } from 'react-moralis';
 
 const useContract = contractJSON => {
   const [contract, setContract] = useState();
-  // const {
-  //   contract,
-  //   setContract,
-  //   walletAddress,
-  // } = useGlobalState();
 
   const { isWeb3Enabled, isAuthenticated, Moralis, enableWeb3 } = useMoralis();
-  const walletAddress = window.ethereum.selectedAddress;
+  const walletAddress = window.ethereum?.selectedAddress;
 
-  console.log('walletAddress: ', walletAddress);
+  // console.log('walletAddress: ', walletAddress);
 
   async function setContractWithWC() {
     await enableWeb3({ provider: 'walletconnect' });
@@ -57,11 +52,11 @@ const useContract = contractJSON => {
   async function getContractWithoutMetamask() {
     console.log('getContractWithoutMetamask');
     const _contract = await loadContract(
-      new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby')
+      new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan')
     );
     await setContract(_contract);
     await enableWeb3({
-      provider: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby',
+      provider: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan',
     });
   }
 
@@ -95,7 +90,7 @@ const useContract = contractJSON => {
   }, [
     isAuthenticated,
     // chain:
-    window.ethereum.chainId,
+    window.ethereum?.chainId,
 
     // isWeb3Enabled
   ]);
