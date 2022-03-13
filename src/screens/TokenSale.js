@@ -72,7 +72,7 @@ const TokenSale = () => {
           address: '0x7c769d0B305F7DcB54caf0fffED1509608575C28',
           symbol: 'RESODE',
           decimals: 0,
-          image: "https://resode.vercel.app/token-s.png",
+          image: "https://resode.vercel.app/token.png",
         },
       },
     });
