@@ -5,19 +5,25 @@ import { useMoralis } from 'react-moralis';
 const useContract = contractJSON => {
   const [contract, setContract] = useState();
 
+  
   const { isWeb3Enabled, isAuthenticated, Moralis, enableWeb3 } = useMoralis();
-
-  var walletAddress = window.ethereum?.selectedAddress || Moralis.web3?.currentProvider.accounts[0];
+  
+  var walletAddress = window.ethereum?.selectedAddress || Moralis.web3?.currentProvider?.accounts[0];
   var chainId = window.ethereum?.chainId || Moralis.web3?.currentProvider.chainId;
 
   useEffect(() => {
-    console.log('Moralis.web3: ', Moralis.web3);
-    console.log('Moralis connected address ', Moralis?.web3?.currentProvider.accounts[0]);
-    console.log('Moralis chainId', Moralis?.web3?.currentProvider.chainId);
-    walletAddress = window.ethereum?.selectedAddress || Moralis.web3?.currentProvider.accounts[0];
-    chainId = window.ethereum?.chainId || Moralis.web3?.currentProvider.chainId;
-    // const walletAddress = null;
-  }, [Moralis.web3]);
+    console.log("walletAddress changed: ", walletAddress)
+  }, [walletAddress])
+  
+
+  // useEffect(() => {
+  //   console.log('Moralis.web3: ', Moralis.web3);
+  //   console.log('Moralis connected address ', Moralis?.web3?.currentProvider.accounts[0]);
+  //   console.log('Moralis chainId', Moralis?.web3?.currentProvider.chainId);
+  //   walletAddress = window.ethereum?.selectedAddress || Moralis.web3?.currentProvider.accounts[0];
+  //   chainId = window.ethereum?.chainId || Moralis.web3?.currentProvider.chainId;
+  //   // const walletAddress = null;
+  // }, [Moralis.web3]);
 
   async function setContractWithWC() {
     await enableWeb3({ provider: 'walletconnect' });
@@ -30,7 +36,7 @@ const useContract = contractJSON => {
   async function loadContract(web3Provider) {
     if (!web3Provider.eth) return null;
     const networkId = await web3Provider.eth.net.getId();
-    console.log('setContract networkId: ', networkId);
+    console.log('loadContract networkId: ', networkId);
     const networkData = await contractJSON.networks[networkId];
 
     if (networkData) {
@@ -78,14 +84,14 @@ const useContract = contractJSON => {
  
 
   useEffect(() => {
-    console.log('chain changed');
+    console.log('chain or isAuthenticated changed');
 
     if (window.ethereum) {
       getContract();
     } else {
       !walletAddress && getContractWithoutMetamask();
     }
-  }, [isAuthenticated, chainId, walletAddress]);
+  }, [isAuthenticated, chainId]); // , walletAddress]) no?
 
   return [contract, setContractWithWC];
 };

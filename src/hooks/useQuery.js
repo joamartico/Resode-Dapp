@@ -12,7 +12,7 @@ const useQuery = propsJSON => {
       fromBlock: 0,
       filter,
     });
-    console.log('getQuery results', _results);
+    // console.log('getQuery results', _results);
     await _results.map(async (result, i) => {
       await values.map(value => {
         _results[i][value] = _results[i].returnValues[value];
@@ -26,7 +26,7 @@ const useQuery = propsJSON => {
   useEffect(
     () => {
       getQuery();
-      console.log('getQuery', contract?.options.address);
+      // console.log('getQuery', contract?.options.address);
 
       live && getLiveQuery();
     },
@@ -35,7 +35,7 @@ const useQuery = propsJSON => {
 
   // let events = 0;
   async function getLiveQuery() {
-    console.log('getLiveQuery');
+    // console.log('getLiveQuery');
     await contract?.events[query]({
       fromBlock: 'latest',
       filter,

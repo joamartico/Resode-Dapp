@@ -55,11 +55,13 @@ const CreatePost = () => {
     }
     const contentURI = await processContent();
 
+    console.log("resodeContract on post", resodeContract);
 
     await resodeContract?.methods
       ?.createPost(selectedCategory.id, '0x91', contentURI)
       .send({ from: walletAddress })
       .catch(console.log);
+
 
     setText('');
     setTitle('');

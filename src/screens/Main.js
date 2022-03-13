@@ -94,7 +94,7 @@ const Main = () => {
           <Row>
             <Col70>
               <CreatePost />
-              {console.log('posts: ', posts)}
+              {/* {console.log('posts: ', posts)} */}
               {posts?.map(post => (
                 <Post
                   key={post.postId}

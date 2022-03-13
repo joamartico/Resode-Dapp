@@ -4,7 +4,7 @@ const useIPFS = (contentUri) => {
   const [content, setContent] = useState();
 
   useEffect(() => {
-    console.log('POST');
+    // console.log('POST');
     fetchIPFSDOC();
   }, []);
 
