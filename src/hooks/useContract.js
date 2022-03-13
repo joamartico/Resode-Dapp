@@ -47,11 +47,11 @@ const useContract = contractJSON => {
       console.log(
         'The network you choose with ID: ' +
           networkId +
-          ' is not available for this dapp, you are now in Kovan'
+          ' is not available for this dapp, you are now in Rinkeby'
       );
       const _contract = await new web3Provider.eth.Contract(
         contractJSON.abi,
-        contractJSON.networks[42]?.address
+        contractJSON.networks[4]?.address
       );
       return _contract;
     }
@@ -67,11 +67,11 @@ const useContract = contractJSON => {
   async function getContractWithoutMetamask() {
     console.log('getContractWithoutMetamask');
     const _contract = await loadContract(
-      new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan')
+      new Moralis.Web3('https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby')
     );
     await setContract(_contract);
     await enableWeb3({
-      provider: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan',
+      provider: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby',
     });
   }
 
