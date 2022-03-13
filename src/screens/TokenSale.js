@@ -1,28 +1,87 @@
 import { IonContent, IonInput, IonPage, IonProgressBar, IonTextarea } from '@ionic/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMoralis } from 'react-moralis';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import { Button, Padding, Row, Scroll } from '../components/StyledComponents';
+import useGlobalState from '../hooks/useGlobalState';
+import useMethod from '../hooks/useMethod';
 
 const TokenSale = () => {
+  const { resodeTokenSaleContract, resodeTokenContract, walletAddress } = useGlobalState();
+
+  if (!resodeTokenSaleContract || !resodeTokenContract) return null;
+
+  const [amountToBuy, setAmountToBuy] = useState(0);
+  //   var tokenPrice;
+  //
+  //   useEffect(() => {
+  //     resodeTokenSaleContract?.methods
+  //       ?.tokenPrice()
+  //       .call()
+  //       .then(price => {
+  //         tokenPrice = price / 10**18;
+  //       });
+  //   }, [resodeTokenSaleContract]);
+
+  const tokenPrice = useMethod(resodeTokenSaleContract, 'tokenPrice');
+  const tokensSold = parseInt(useMethod(resodeTokenSaleContract, 'tokensSold'))
+  const balance = useMethod(resodeTokenContract, `balanceOf`, walletAddress);
+
+  function onBuy() {
+    console.log(
+      'amountToBuy',
+      amountToBuy,
+      'tokenPrice',
+      tokenPrice,
+      'walletAddress',
+      walletAddress
+    );
+    resodeTokenSaleContract.methods
+      .buyTokens(amountToBuy)
+      .send({
+        from: walletAddress,
+        value: amountToBuy * tokenPrice,
+        gas: 3000000
+
+      })
+      .then(result => {
+        console.log('result', result);
+      }).catch(err => console.log("err", err))
+  }
+
+  const tokenSaleContractAddress = resodeTokenSaleContract.options.address;
+
+  const tokenSaleBalance = parseInt(useMethod(resodeTokenContract, 'balanceOf', tokenSaleContractAddress))
+
+
+//   resodeTokenSaleContract?.methods?.tokenContract.call().then(res => console.log("tokenContract", res.methods.symbol().call()));
+
   return (
     <IonPage>
       <IonContent>
         <Wrapper>
           <Title>Resode Token Sale</Title>
-          <p>RESODE token price is 0.001 ETH (only in Rinkeby Test Network) </p>
+          <p>
+            RESODE token price is {tokenPrice / 10**18} ETH (only in Rinkeby Test
+            Network){' '}
+          </p>
 
           <Row mt="100px" width="500px" h="60px" spaced mt="65px">
-            <AmountInput type="number" placeholder="Enter RESODE amount to buy" />
-            <Button width="26%" height="100%" mb="0" mt="0">
+            <AmountInput
+              type="number"
+              placeholder="Enter RESODE amount to buy"
+              onIonChange={e => setAmountToBuy(e.detail.value)}
+            />
+            <Button width="26%" height="100%" mb="0" mt="0" onClick={onBuy}>
               Buy
             </Button>
           </Row>
 
-          {/* Progress Bar */}
-          <ProgressBar value={0.2}></ProgressBar>
-          <p>123 / 1000000 tokens sold</p>
-
+          <ProgressBar value={tokensSold / (tokenSaleBalance + tokensSold)}></ProgressBar>
+          <p>
+            {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold. You currently have {balance }
+          </p>
         </Wrapper>
       </IonContent>
     </IonPage>
@@ -32,15 +91,15 @@ const TokenSale = () => {
 export default TokenSale;
 
 const ProgressBar = styled(IonProgressBar)`
-    margin-top: 40px;
-    margin-bottom: 10px;
-    max-width: 500px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  max-width: 500px;
 `;
 
 const AmountInput = styled(IonInput)`
   display: flex;
   border-radius: 14px;
-  border: 1px solid ${({ red, background }) => (red ? 'red' : background || COLORS.primary)};
+  border: 1px solid ${COLORS.primary}a0;
   height: 100%;
   margin: 0 !important;
   max-width: 70% !important;

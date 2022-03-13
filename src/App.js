@@ -22,15 +22,16 @@ import resodeTokenContractJSON from '../truffle/build/contracts/ResodeToken.json
 import resodeTokenSaleContractJSON from '../truffle/build/contracts/ResodeTokenSale.json';
 
 import TokenSale from './screens/TokenSale';
-import useColor from './hooks/useColor';
+
+
 
 const App = () => {
   const [resodeContract, setContractWithWC] = useContract(resodeContractJSON);
-  // const [resodeTokenContract] = useContract(resodeTokenContractJSON);
-  // const [resodeTokenSaleContract] = useContract(resodeTokenSaleContractJSON);
-  const [color] = useColor();
+  const [resodeTokenContract] = useContract(resodeTokenContractJSON);
+  const [resodeTokenSaleContract] = useContract(resodeTokenSaleContractJSON);
 
-  console.log('App.js color: ', color, 'resodeContract: ', resodeContract?.options.address);
+
+  
 
   
 
@@ -39,7 +40,8 @@ const App = () => {
       value={{
         resodeContract,
         setContractWithWC,
-        color,
+        resodeTokenContract,
+        resodeTokenSaleContract,
       }}
     >
       <IonApp>

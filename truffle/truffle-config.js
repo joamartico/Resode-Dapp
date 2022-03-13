@@ -21,7 +21,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
 // const fs = require('fs');
-const mnemonic = require('../secrets.json').mnemonic;
+const secrets = require('../secrets.json');
 
 module.exports = {
   /**
@@ -60,7 +60,7 @@ module.exports = {
     ropsten: {
       provider: () =>
         new HDWalletProvider(
-          mnemonic,
+          secrets.mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/ropsten'
         ),
       network_id: 3, // Ropsten's id
@@ -72,9 +72,12 @@ module.exports = {
     },
     kovan: {
       provider: () =>
-        new HDWalletProvider(
-          mnemonic,
-          'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan'
+        new HDWalletProvider({
+          providerOrUrl: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/kovan',
+          privateKeys: secrets.privateKeys
+        }
+
+          
         ),
       network_id: 42, // Kovan's id
       gas: 5500000, // Ropsten has a lower block limit than mainnet
@@ -86,7 +89,7 @@ module.exports = {
     rinkeby: {
       provider: () =>
         new HDWalletProvider(
-          mnemonic,
+          secrets.mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/rinkeby'
         ),
       network_id: 4, // Rinkeby's id
@@ -99,7 +102,7 @@ module.exports = {
     goerli: {
       provider: () =>
         new HDWalletProvider(
-          mnemonic,
+          secrets.mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/eth/goerli'
         ),
       network_id: 5, // Goerli's id
@@ -112,7 +115,7 @@ module.exports = {
     mumbai: {
       provider: () =>
         new HDWalletProvider(
-          mnemonic,
+          secrets.mnemonic,
           'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/polygon/mumbai'
         ),
       network_id: 80001, // Polygon Mumbai's id
@@ -124,7 +127,7 @@ module.exports = {
     },
     // Useful for private networks
     // private: {
-    // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
+    // provider: () => new HDWalletProvider(secrets.mnemonic, `https://network.io`),
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }

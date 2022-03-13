@@ -23,7 +23,7 @@ import useQuery from '../hooks/useQuery';
 import { useEffect } from 'react';
 
 const Main = () => {
-  const { selectedCategory, setSelectedCategory, resodeContract, walletAddress, chainId, color } =
+  const { selectedCategory, setSelectedCategory, resodeContract, walletAddress, chainId } =
     useGlobalState();
   if (!resodeContract) return null;
 
