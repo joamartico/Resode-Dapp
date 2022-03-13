@@ -82,7 +82,7 @@ const TokenSale = () => {
       <IonContent>
         <Wrapper>
           <Title>Resode Token Sale</Title>
-          <p>RESODE token price is {tokenPrice / 10 ** 18} ETH (only in Rinkeby Test Network) </p>
+          <p>RESODE token price is {tokenPrice / 10 ** 18} ETH (only in Kovan Test Network) </p>
 
           <Row mt="100px" width="500px" h="60px" spaced mt="65px">
             <AmountInput

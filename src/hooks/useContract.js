@@ -7,15 +7,17 @@ const useContract = contractJSON => {
 
   const { isWeb3Enabled, isAuthenticated, Moralis, enableWeb3 } = useMoralis();
 
+  var walletAddress = window.ethereum?.selectedAddress || Moralis.web3?.currentProvider.accounts[0];
+  var chainId = window.ethereum?.chainId || Moralis.web3?.currentProvider.chainId;
+
   useEffect(() => {
     console.log('Moralis.web3: ', Moralis.web3);
-    console.log("Moralis connected address ", Moralis?.web3?.currentProvider?.selectedAddress);
+    console.log('Moralis connected address ', Moralis?.web3?.currentProvider.accounts[0]);
+    console.log('Moralis chainId', Moralis?.web3?.currentProvider.chainId);
+    walletAddress = window.ethereum?.selectedAddress || Moralis.web3?.currentProvider.accounts[0];
+    chainId = window.ethereum?.chainId || Moralis.web3?.currentProvider.chainId;
+    // const walletAddress = null;
   }, [Moralis.web3]);
-
-  // const walletAddress = window.ethereum?.selectedAddress;
-  const walletAddress = null;
-
-  // console.log('walletAddress: ', walletAddress);
 
   async function setContractWithWC() {
     await enableWeb3({ provider: 'walletconnect' });
@@ -50,7 +52,7 @@ const useContract = contractJSON => {
   }
 
   async function getContract() {
-    // await enableWeb3();
+    await enableWeb3();
     const _contract = await loadContract(new Moralis.Web3(window.ethereum));
     setContract(_contract);
     console.log('getContract', _contract.options.address); // funciona bien
@@ -73,20 +75,9 @@ const useContract = contractJSON => {
   //   await setContract(_contract);
   // }
 
-  useEffect(() => {
-    enableWeb3();
-  }, []);
+ 
 
   useEffect(() => {
-    // Moralis.onChainChanged(function (chain) {
-    //   if (window.ethereum) {
-    //     console.log("SETCONTRACT")
-    //     getContract();
-    //   } else {
-    //     !walletAddress && getContractWithoutMetamask();
-    //   }
-    // });
-
     console.log('chain changed');
 
     if (window.ethereum) {
@@ -94,14 +85,7 @@ const useContract = contractJSON => {
     } else {
       !walletAddress && getContractWithoutMetamask();
     }
-  }, [
-    isAuthenticated,
-    // chain:
-    window.ethereum?.chainId,
-    Moralis.web3?.currentProvider,
-
-    // isWeb3Enabled
-  ]);
+  }, [isAuthenticated, chainId, walletAddress]);
 
   return [contract, setContractWithWC];
 };
