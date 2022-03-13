@@ -41,7 +41,7 @@ const useContract = contractJSON => {
       );
       const _contract = await new web3Provider.eth.Contract(
         contractJSON.abi,
-        contractJSON.networks[42].address
+        contractJSON.networks[42]?.address
       );
       return _contract;
     }

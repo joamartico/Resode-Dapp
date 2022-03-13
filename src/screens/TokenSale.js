@@ -7,6 +7,9 @@ import { Button, Padding, Row, Scroll } from '../components/StyledComponents';
 import useGlobalState from '../hooks/useGlobalState';
 import useMethod from '../hooks/useMethod';
 
+
+
+
 const TokenSale = () => {
   const { resodeTokenSaleContract, resodeTokenContract, walletAddress } = useGlobalState();
 
@@ -25,7 +28,7 @@ const TokenSale = () => {
   //   }, [resodeTokenSaleContract]);
 
   const tokenPrice = useMethod(resodeTokenSaleContract, 'tokenPrice');
-  const tokensSold = parseInt(useMethod(resodeTokenSaleContract, 'tokensSold'))
+  const tokensSold = parseInt(useMethod(resodeTokenSaleContract, 'tokensSold'));
   const balance = useMethod(resodeTokenContract, `balanceOf`, walletAddress);
 
   function onBuy() {
@@ -42,30 +45,47 @@ const TokenSale = () => {
       .send({
         from: walletAddress,
         value: amountToBuy * tokenPrice,
-        gas: 3000000
-
+        gas: 3000000,
       })
       .then(result => {
         console.log('result', result);
-      }).catch(err => console.log("err", err))
+      })
+      .catch(err => console.log('err', err));
   }
 
   const tokenSaleContractAddress = resodeTokenSaleContract.options.address;
+  const tokenAddress = resodeTokenContract.options.address;
 
-  const tokenSaleBalance = parseInt(useMethod(resodeTokenContract, 'balanceOf', tokenSaleContractAddress))
+  console.log('resodeTokenSaleContract options', resodeTokenSaleContract.options);
+  console.log('resodeTokenContract options', resodeTokenContract.options);
 
+  const tokenSaleBalance = parseInt(
+    useMethod(resodeTokenContract, 'balanceOf', tokenSaleContractAddress)
+  );
 
-//   resodeTokenSaleContract?.methods?.tokenContract.call().then(res => console.log("tokenContract", res.methods.symbol().call()));
+  function addTokenToMetamask() {
+    window.ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: '0x7c769d0B305F7DcB54caf0fffED1509608575C28',
+          symbol: 'RESODE',
+          decimals: 0,
+          image: "https://resode.vercel.app/token.png",
+        },
+      },
+    });
+  }
+
+  //   resodeTokenSaleContract?.methods?.tokenContract.call().then(res => console.log("tokenContract", res.methods.symbol().call()));
 
   return (
     <IonPage>
       <IonContent>
         <Wrapper>
           <Title>Resode Token Sale</Title>
-          <p>
-            RESODE token price is {tokenPrice / 10**18} ETH (only in Rinkeby Test
-            Network){' '}
-          </p>
+          <p>RESODE token price is {tokenPrice / 10 ** 18} ETH (only in Rinkeby Test Network) </p>
 
           <Row mt="100px" width="500px" h="60px" spaced mt="65px">
             <AmountInput
@@ -80,8 +100,10 @@ const TokenSale = () => {
 
           <ProgressBar value={tokensSold / (tokenSaleBalance + tokensSold)}></ProgressBar>
           <p>
-            {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold. You currently have {balance }
+            {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold. You
+            currently have {balance}
           </p>
+          <p onClick={addTokenToMetamask}>Add Token To Metamask</p>
         </Wrapper>
       </IonContent>
     </IonPage>
