@@ -6,7 +6,7 @@ import Account from './Account';
 import Address from './Address';
 import Chain from './Chain';
 import NativeBalance from './NativeBalance';
-import { Icon, Padding } from './StyledComponents';
+import { Icon, Image, Padding } from './StyledComponents';
 
 const Sidebar = ({ tabs }) => {
   const [actualUrl, setActualUrl] = useState();
@@ -20,7 +20,7 @@ const Sidebar = ({ tabs }) => {
     <Wrapper className="Sidebar">
       <Padding>
         <Row h={120}>
-          <Image src="/icon.png" alt="icon" />
+          <Image src="/icon.png" alt="icon" size="75px" mr="10px" />
           <AppTitle>Resode</AppTitle>
         </Row>
 
@@ -48,13 +48,13 @@ const Sidebar = ({ tabs }) => {
 
 export default Sidebar;
 
-const Image = styled.img`
-  width: 75px;
-  height: 75px;
-  object-fit: cover;
-  display: flex;
-  margin-right: 10px;
-`;
+// const Image = styled.img`
+//   width: 75px;
+//   height: 75px;
+//   object-fit: cover;
+//   display: flex;
+//   margin-right: 10px;
+// `;
 
 const WalletAccount = styled.div`
   margin-bottom: 40px;

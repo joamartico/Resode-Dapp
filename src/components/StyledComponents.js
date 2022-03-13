@@ -23,7 +23,7 @@ export const Button = styled.div`
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '46px'};
   border-radius: 14px;
-  border: 1px solid ${({ red, background }) => (red ? 'red' : background )};
+  border: 1px solid ${({ red, background }) => (red ? 'red' : background)};
   cursor: pointer;
   background: ${({ outlined, red, background }) => {
     if (outlined) {
@@ -32,7 +32,10 @@ export const Button = styled.div`
       if (red) {
         return 'red';
       } else {
-        return background || "linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)";
+        return (
+          background ||
+          'linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)'
+        );
       }
     }
   }};
@@ -104,4 +107,15 @@ export const Scroll = styled(IonList)`
   padding: 5% !important;
   padding-bottom: ${({ pb }) => pb || '5%'} !important;
   padding-top: ${({ pt }) => pt || '5%'} !important;
+`;
+
+export const Image = styled.img`
+  width: ${({ size, w }) => w || size || '100%'};
+  height: ${({ size, h }) => h || size || '100%'};
+  object-fit: cover;
+  display: flex;
+  margin-right: ${({ mr }) => mr && mr};
+  margin-left: ${({ ml }) => ml && ml};
+  margin-top: ${({ mt }) => mt && mt};
+  margin-bottom: ${({ mb }) => mb && mb};
 `;

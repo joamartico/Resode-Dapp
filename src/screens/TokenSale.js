@@ -3,12 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
-import { Button, Padding, Row, Scroll } from '../components/StyledComponents';
+import { Button, Image, Padding, Row, Scroll } from '../components/StyledComponents';
 import useGlobalState from '../hooks/useGlobalState';
 import useMethod from '../hooks/useMethod';
-
-
-
 
 const TokenSale = () => {
   const { resodeTokenSaleContract, resodeTokenContract, walletAddress } = useGlobalState();
@@ -72,7 +69,7 @@ const TokenSale = () => {
           address: '0x7c769d0B305F7DcB54caf0fffED1509608575C28',
           symbol: 'RESODE',
           decimals: 0,
-          image: "https://resode.vercel.app/token.png",
+          image: 'https://resode.vercel.app/token.png',
         },
       },
     });
@@ -101,9 +98,17 @@ const TokenSale = () => {
           <ProgressBar value={tokensSold / (tokenSaleBalance + tokensSold)}></ProgressBar>
           <p>
             {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold. You
-            currently have {balance}
+            currently have {balance}.
           </p>
-          <p onClick={addTokenToMetamask}>Add Token To Metamask</p>
+          <Link onClick={addTokenToMetamask} mt="50px">
+            Add Token To Metamask
+            <Image
+              size="25px"
+              ml="10px"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/1200px-MetaMask_Fox.svg.png"
+              alt="metamask"
+            />
+          </Link>
         </Wrapper>
       </IonContent>
     </IonPage>
@@ -111,6 +116,21 @@ const TokenSale = () => {
 };
 
 export default TokenSale;
+
+const Link = styled.a`
+  margin-top: ${({ mt }) => mt && mt};
+  color: #999;
+  text-decoration: none;
+  /* font-size: 1.2rem; */
+  /* font-weight: bold; */
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const ProgressBar = styled(IonProgressBar)`
   margin-top: 40px;
