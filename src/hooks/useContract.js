@@ -6,7 +6,14 @@ const useContract = contractJSON => {
   const [contract, setContract] = useState();
 
   const { isWeb3Enabled, isAuthenticated, Moralis, enableWeb3 } = useMoralis();
-  const walletAddress = window.ethereum?.selectedAddress;
+
+  useEffect(() => {
+    console.log('Moralis.web3: ', Moralis.web3);
+    console.log("Moralis connected address ", Moralis?.web3?.currentProvider?.selectedAddress);
+  }, [Moralis.web3]);
+
+  // const walletAddress = window.ethereum?.selectedAddress;
+  const walletAddress = null;
 
   // console.log('walletAddress: ', walletAddress);
 
@@ -45,7 +52,7 @@ const useContract = contractJSON => {
   async function getContract() {
     // await enableWeb3();
     const _contract = await loadContract(new Moralis.Web3(window.ethereum));
-     setContract(_contract);
+    setContract(_contract);
     console.log('getContract', _contract.options.address); // funciona bien
   }
 
@@ -80,7 +87,7 @@ const useContract = contractJSON => {
     //   }
     // });
 
-    console.log("chain changed")
+    console.log('chain changed');
 
     if (window.ethereum) {
       getContract();
@@ -91,6 +98,7 @@ const useContract = contractJSON => {
     isAuthenticated,
     // chain:
     window.ethereum?.chainId,
+    Moralis.web3?.currentProvider,
 
     // isWeb3Enabled
   ]);

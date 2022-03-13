@@ -20,7 +20,7 @@ import resodeContractJSON from "../../truffle/build/contracts/Resode.json";
 
 const wcConnector = new WalletConnectConnector({
   infuraId: 'm4OZrS1YYziZUSyinkROsS7F24eyk3hZknK2GYxQ',
-  chainId: 4,
+  chainId: 42,
 });
 
 function getLibrary(provider) {
