@@ -26,7 +26,7 @@ import TokenSale from './screens/TokenSale';
 
 
 const App = () => {
-  const [resodeContract, setContractWithWC] = useContract(resodeContractJSON);
+  const [resodeContract] = useContract(resodeContractJSON);
   const [resodeTokenContract] = useContract(resodeTokenContractJSON);
   const [resodeTokenSaleContract] = useContract(resodeTokenSaleContractJSON);
 
@@ -39,7 +39,6 @@ const App = () => {
     <Context
       value={{
         resodeContract,
-        setContractWithWC,
         resodeTokenContract,
         resodeTokenSaleContract,
       }}

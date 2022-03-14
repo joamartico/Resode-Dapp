@@ -15,11 +15,11 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { Web3Provider } from '@ethersproject/providers';
 import useLocalStorage from '../hooks/useLocalStorage';
 import useGlobalState from '../hooks/useGlobalState';
-import useContract  from '../hooks/useContract';
-import resodeContractJSON from "../../truffle/build/contracts/Resode.json";
+import useContract from '../hooks/useContract';
+import resodeContractJSON from '../../truffle/build/contracts/Resode.json';
 
 const wcConnector = new WalletConnectConnector({
-  infuraId: 'm4OZrS1YYziZUSyinkROsS7F24eyk3hZknK2GYxQ',
+  infuraId: 'm4OZrS1YYziZUSyinkROsS7F24eyk3hZknK2GYxQ', // que es esto y por que solo funciona con chainId: 4??
   chainId: 4,
 });
 
@@ -30,8 +30,8 @@ function getLibrary(provider) {
 }
 
 const Account = () => {
-  const { logout, Moralis } = useMoralis();
-  const { walletAddress, setWalletAddress, chainId, setContractWithWC} = useGlobalState();
+  const { logout, Moralis, enableWeb3 } = useMoralis();
+  const { walletAddress, setWalletAddress, chainId } = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   // const {setContractWithWC} = useContract(resodeContractJSON);
   const web3React = useWeb3React();
@@ -41,19 +41,22 @@ const Account = () => {
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {
-      // await web3React.activate(wcConnector);
-      await setContractWithWC();
+      // await setContractWithWC();
+      await enableWeb3({ provider: 'walletconnect' });
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
-      console.log("WC: ", wcConnector, Moralis.web3.currentProvider, web3React.account, web3React.active);
+      console.log(
+        'WC: ',
+        wcConnector,
+        Moralis.web3.currentProvider,
+        web3React.account,
+        web3React.active
+      );
     }
   }
 
-
-
   // const { active, activate, error } = web3React;
   // const [loaded, setLoaded] = useState(false);
-
 
   // useEffect(() => {
   //   if (latestOp == 'connect' && latestConnector == 'injected') {
@@ -104,7 +107,7 @@ const Account = () => {
         onDidDismiss={() => setIsModalVisible(false)}
         width="400px"
       >
-        <Padding spaced  pt="0px">
+        <Padding spaced pt="0px">
           <Row spaced>
             <Text size={25} weight={500}>
               Account
@@ -183,7 +186,6 @@ const StyledModal = styled(IonModal)`
   --height: 260px !important;
   --width: 420px !important;
   --max-width: 92vw !important;
-
 `;
 
 const AccountButton = styled.div`
