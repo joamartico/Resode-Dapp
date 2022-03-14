@@ -4,7 +4,7 @@ import { useMoralis } from 'react-moralis';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import { Button, Image, Padding, Row, Scroll } from '../components/StyledComponents';
-import { getEllipsisTxt } from "../helpers/formatters";
+import { getEllipsisTxt } from '../helpers/formatters';
 import useGlobalState from '../hooks/useGlobalState';
 import useMethod from '../hooks/useMethod';
 
@@ -27,7 +27,7 @@ const TokenSale = () => {
 
   const tokenPrice = useMethod(resodeTokenSaleContract, 'tokenPrice');
   const tokensSold = parseInt(useMethod(resodeTokenSaleContract, 'tokensSold'));
-  const balance = useMethod(resodeTokenContract, `balanceOf`, walletAddress);
+  const balance = walletAddress && useMethod(resodeTokenContract, `balanceOf`, walletAddress);
 
   function onBuy() {
     console.log(
@@ -54,9 +54,9 @@ const TokenSale = () => {
   const tokenSaleAddress = resodeTokenSaleContract.options.address;
   const tokenAddress = resodeTokenContract.options.address;
 
-  const tokenSaleBalance = parseInt(
-    useMethod(resodeTokenContract, 'balanceOf', tokenSaleAddress)
-  );
+  console.log("tokenAddress", tokenAddress);
+
+  const tokenSaleBalance =  parseInt(useMethod(resodeTokenContract, 'balanceOf', tokenSaleAddress));
 
   function addTokenToMetamask() {
     window.ethereum.request({
@@ -72,7 +72,6 @@ const TokenSale = () => {
       },
     });
   }
-
 
   return (
     <IonPage>
@@ -97,8 +96,8 @@ const TokenSale = () => {
           <ProgressBar value={tokensSold / (tokenSaleBalance + tokensSold)}></ProgressBar>
 
           <p>
-            {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold. You
-            currently have {balance}.
+            {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold.
+            {walletAddress && <>You currently have {balance}.</>}
           </p>
 
           <Link onClick={addTokenToMetamask} mt="50px">
@@ -106,7 +105,11 @@ const TokenSale = () => {
             <Image size="25px" ml="10px" src="/metamask.png" alt="metamask" />
           </Link>
 
-          <Link mt="50px" href={`https://rinkeby.etherscan.io/address/${tokenSaleAddress}`} target="_blank">
+          <Link
+            mt="50px"
+            href={`https://rinkeby.etherscan.io/address/${tokenSaleAddress}`}
+            target="_blank"
+          >
             TokenSale Contract: {getEllipsisTxt(tokenSaleAddress)}
           </Link>
         </Wrapper>
