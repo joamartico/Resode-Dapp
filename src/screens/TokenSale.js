@@ -4,6 +4,7 @@ import { useMoralis } from 'react-moralis';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import { Button, Image, Padding, Row, Scroll } from '../components/StyledComponents';
+import { getEllipsisTxt } from "../helpers/formatters";
 import useGlobalState from '../hooks/useGlobalState';
 import useMethod from '../hooks/useMethod';
 
@@ -50,14 +51,11 @@ const TokenSale = () => {
       .catch(err => console.log('err', err));
   }
 
-  const tokenSaleContractAddress = resodeTokenSaleContract.options.address;
+  const tokenSaleAddress = resodeTokenSaleContract.options.address;
   const tokenAddress = resodeTokenContract.options.address;
 
-  console.log('resodeTokenSaleContract options', resodeTokenSaleContract.options);
-  console.log('resodeTokenContract options', resodeTokenContract.options);
-
   const tokenSaleBalance = parseInt(
-    useMethod(resodeTokenContract, 'balanceOf', tokenSaleContractAddress)
+    useMethod(resodeTokenContract, 'balanceOf', tokenSaleAddress)
   );
 
   function addTokenToMetamask() {
@@ -66,7 +64,7 @@ const TokenSale = () => {
       params: {
         type: 'ERC20',
         options: {
-          address: '0x7c769d0B305F7DcB54caf0fffED1509608575C28',
+          address: tokenAddress,
           symbol: 'RESODE',
           decimals: 0,
           image: 'https://resode.vercel.app/token.png',
@@ -75,13 +73,13 @@ const TokenSale = () => {
     });
   }
 
-  //   resodeTokenSaleContract?.methods?.tokenContract.call().then(res => console.log("tokenContract", res.methods.symbol().call()));
 
   return (
     <IonPage>
       <IonContent>
         <Wrapper>
           <Title>Resode Token Sale</Title>
+
           <p>RESODE token price is {tokenPrice / 10 ** 18} ETH (only in Kovan Test Network) </p>
 
           <Row mt="100px" width="500px" h="60px" spaced mt="65px">
@@ -90,19 +88,26 @@ const TokenSale = () => {
               placeholder="Enter RESODE amount to buy"
               onIonChange={e => setAmountToBuy(e.detail.value)}
             />
+
             <Button width="26%" height="100%" mb="0" mt="0" onClick={onBuy}>
               Buy
             </Button>
           </Row>
 
           <ProgressBar value={tokensSold / (tokenSaleBalance + tokensSold)}></ProgressBar>
+
           <p>
             {tokensSold} / {parseInt(tokenSaleBalance) + parseInt(tokensSold)} tokens sold. You
             currently have {balance}.
           </p>
+
           <Link onClick={addTokenToMetamask} mt="50px">
             Add Token To Metamask
             <Image size="25px" ml="10px" src="/metamask.png" alt="metamask" />
+          </Link>
+
+          <Link mt="50px" href={`https://rinkeby.etherscan.io/address/${tokenSaleAddress}`} target="_blank">
+            TokenSale Contract: {getEllipsisTxt(tokenSaleAddress)}
           </Link>
         </Wrapper>
       </IonContent>

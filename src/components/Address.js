@@ -5,7 +5,7 @@ import { getEllipsisTxt } from '../helpers/formatters';
 import useGlobalState from '../hooks/useGlobalState';
 import BlockieAvatar from './BlockieAvatar';
 import styled from 'styled-components';
-import useContract from "../hooks/useContract";
+
 
 function Address({ copyable, size, avatar, address }) {
   const { walletAddress } = useGlobalState();
