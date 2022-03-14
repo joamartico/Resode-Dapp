@@ -14,6 +14,10 @@ const TokenSale = () => {
   if (!resodeTokenSaleContract || !resodeTokenContract) return null;
 
   const [amountToBuy, setAmountToBuy] = useState(0);
+
+  const tokenSaleAddress = resodeTokenSaleContract.options.address;
+  const tokenAddress = resodeTokenContract.options.address;
+
   //   var tokenPrice;
   //
   //   useEffect(() => {
@@ -25,9 +29,38 @@ const TokenSale = () => {
   //       });
   //   }, [resodeTokenSaleContract]);
 
-  const tokenPrice = useMethod(resodeTokenSaleContract, 'tokenPrice');
-  const tokensSold = parseInt(useMethod(resodeTokenSaleContract, 'tokensSold'));
-  const balance = walletAddress && useMethod(resodeTokenContract, `balanceOf`, walletAddress);
+  const tokenPrice = useMethod({
+    contract: resodeTokenSaleContract,
+    method: 'tokenPrice',
+  });
+
+  const tokensSold = parseInt(
+    useMethod({
+      contract: resodeTokenSaleContract,
+      method: 'tokensSold',
+      onEventChange: 'Sell',
+    })
+  );
+
+  const tokenSaleBalance = parseInt(
+    useMethod({
+      contract: resodeTokenContract,
+      method: 'balanceOf',
+      args: [tokenSaleAddress],
+      onEventChange: 'Transfer',
+    })
+  );
+
+  const balance =
+    walletAddress &&
+    useMethod({
+      contract: resodeTokenContract,
+      method: `balanceOf`,
+      args: [walletAddress],
+      onEventChange: 'Transfer',
+    });
+
+
 
   function onBuy() {
     console.log(
@@ -51,12 +84,7 @@ const TokenSale = () => {
       .catch(err => console.log('err', err));
   }
 
-  const tokenSaleAddress = resodeTokenSaleContract.options.address;
-  const tokenAddress = resodeTokenContract.options.address;
 
-  console.log("tokenAddress", tokenAddress);
-
-  const tokenSaleBalance =  parseInt(useMethod(resodeTokenContract, 'balanceOf', tokenSaleAddress));
 
   function addTokenToMetamask() {
     window.ethereum.request({

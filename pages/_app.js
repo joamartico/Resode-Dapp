@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }) {
 
         {/* ICONS */}
         <link rel="icon" href="/icon.png" />
-        <link rel="apple-touch-icon" href="/apple-icon-180.png" />
+        <link rel="apple-touch-icon" href="/icon.png" />
         <link
           rel="apple-touch-startup-image"
           href="/apple-splash-2048-2732.jpg"

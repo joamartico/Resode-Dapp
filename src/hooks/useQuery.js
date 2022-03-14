@@ -1,7 +1,7 @@
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const useQuery = propsJSON => {
-  const { query, values, live, filter, onChange, reverse, contract } = propsJSON;
+const useQuery = JSONProps => {
+  const { query, values, live, filter, onChange, reverse, contract } = JSONProps;
 
   const [results, setResults] = useState([]);
 
@@ -23,11 +23,23 @@ const useQuery = propsJSON => {
     return _results;
   };
   
+
   useEffect(
     () => {
-      getQuery();
-      // console.log('getQuery', contract?.options.address);
+       getQuery();
+    },
+    Object.prototype.toString.call(onChange) === '[object Array]'
+      ? [...onChange, contract]
+      : [onChange, contract]
+  );
 
+  // useEffect(() => {
+  //   live && getQuery();
+  // }, [])
+  
+
+  useEffect(
+    () => {
       live && getLiveQuery();
     },
     Object.prototype.toString.call(onChange) === '[object Array]' ? [...onChange, contract] : [onChange, contract]
@@ -52,7 +64,6 @@ const useQuery = propsJSON => {
   // if(!contract) return null;
 
   return results;
-
 };
 
 export default useQuery;

@@ -70,13 +70,13 @@ const networks = [
 ];
 
 function Chain() {
-  const { switchNetwork, chainId, chain } = useChain();
+  const { switchNetwork, chainId } = useChain();
   const [selected, setSelected] = useState({
     key: '0x4',
     name: 'Rinkeby',
     type: 'Testnet',
     icon: <ETHLogo />,
-  });
+  }); // cuando conecto wallet con WC (sesión ya iniciada) estoy en una network. Cómo la obtengo? Ponerla como default 
   const [showChains, setShowChains] = useState(false);
   const ref = useRef();
 
