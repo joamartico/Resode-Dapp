@@ -55,16 +55,16 @@ const CreatePost = () => {
     }
     const contentURI = await processContent();
 
-    console.log("resodeContract on post", resodeContract);
+    console.log('resodeContract on post', resodeContract);
 
-    await resodeContract?.methods
-      ?.createPost(selectedCategory.id, '0x91', contentURI)
-      .send({ from: walletAddress })
-      .catch(console.log);
-
-
-    setText('');
-    setTitle('');
+    resodeContract.methods
+      .createPost(selectedCategory.id, '0x91', contentURI)
+      .send({ from: walletAddress, gas: 3000000 })
+      .catch(console.log)
+      .then(() => {
+        setText('');
+        setTitle('');
+      });
   }
 
   return (
