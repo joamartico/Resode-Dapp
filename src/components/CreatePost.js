@@ -65,22 +65,19 @@ const CreatePost = () => {
     //     setTitle('');
     //   })
     //   .catch(console.log)
-    resodeTokenSaleContract.methods
-      .buyTokens(11)
-      .send({
-        from: walletAddress,
-        value: 11 * 10000000000000000,
-        gas: 3000000,
+    resodeContract.methods
+      .createPost("0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225", '0x91', "https://ipfs.io/ipfs/QmcLesWYetppE8PgYso7GSemZNSBCbrpHKt9HKW1emFzbR")
+      .send({ from: walletAddress, gas: 3000000 })
+      .then(() => {
+        // setText('');
+        // setTitle('');
       })
-      .then(result => {
-        console.log('result', result);
-      })
-      .catch(err => console.log('err', err));
+      .catch(console.log)
   }
 
   return (
     <Card>
-      <Padding>
+      <Wrapper>
         <div>
           <InputText
             rows={1}
@@ -103,7 +100,7 @@ const CreatePost = () => {
         >
           Post
         </Button>
-      </Padding>
+      </Wrapper>
     </Card>
   );
 };
