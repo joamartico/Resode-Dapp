@@ -60,10 +60,8 @@ const TokenSale = () => {
       onEventChange: 'Transfer',
     });
 
-
-
-  function onBuy() {
-    console.log(
+  async function onBuy() {
+    await console.log(
       'amountToBuy',
       amountToBuy,
       'tokenPrice',
@@ -71,6 +69,14 @@ const TokenSale = () => {
       'walletAddress',
       walletAddress
     );
+    if (!amountToBuy) {
+      present({
+        message: 'Please fill all fields',
+        duration: 2000,
+        color: 'danger',
+      });
+      return null;
+    }
     resodeTokenSaleContract.methods
       .buyTokens(amountToBuy)
       .send({
@@ -83,8 +89,6 @@ const TokenSale = () => {
       })
       .catch(err => console.log('err', err));
   }
-
-
 
   function addTokenToMetamask() {
     window.ethereum.request({
