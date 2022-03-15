@@ -22,10 +22,7 @@ function MyApp({ Component, pageProps }) {
 
         {/* SEO  */}
         <title>Resode</title>
-        <meta
-          name="google-site-verification"
-          // content="3XoSVdS7QLQWutddbE1sJ60XT3mFR-WXrP80V4AharU"
-        />
+        <meta name="google-site-verification" content="3XoSVdS7QLQWutddbE1sJ60XT3mFR-WXrP80V4AharU" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
 
