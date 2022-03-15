@@ -77,17 +77,26 @@ const TokenSale = () => {
       });
       return null;
     }
-    resodeTokenSaleContract.methods
-      .buyTokens(amountToBuy)
-      .send({
-        from: walletAddress,
-        value: amountToBuy * tokenPrice,
-        gas: 3000000,
+    // resodeTokenSaleContract.methods
+    //   .buyTokens(amountToBuy)
+    //   .send({
+    //     from: walletAddress,
+    //     value: amountToBuy * tokenPrice,
+    //     gas: 3000000,
+    //   })
+    //   .then(result => {
+    //     console.log('result', result);
+    //   })
+    //   .catch(err => console.log('err', err));
+    
+    resodeContract.methods
+      .createPost("0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225", '0x91', "https://ipfs.io/ipfs/QmcLesWYetppE8PgYso7GSemZNSBCbrpHKt9HKW1emFzbR")
+      .send({ from: walletAddress, gas: 3000000 })
+      .then(() => {
+        // setText('');
+        // setTitle('');
       })
-      .then(result => {
-        console.log('result', result);
-      })
-      .catch(err => console.log('err', err));
+      .catch(console.log)
   }
 
   function addTokenToMetamask() {

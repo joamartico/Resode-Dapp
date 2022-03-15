@@ -6,7 +6,6 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonTextarea,
-  useIonToast,
 } from '@ionic/react';
 
 import styled from 'styled-components';
@@ -22,14 +21,7 @@ import YourReputation from '../components/YourReputation';
 import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
 import useQuery from '../hooks/useQuery';
-import { useEffect, useState } from 'react';
-import { create } from "ipfs-http-client";
-
-const ipfs = create({
-  host: 'ipfs.infura.io',
-  port: '5001',
-  protocol: 'https',
-});
+import { useEffect } from 'react';
 
 const Main = () => {
   const { selectedCategory, setSelectedCategory, resodeContract, walletAddress, chainId } =
@@ -69,62 +61,7 @@ const Main = () => {
   });
 
   // if (!resodeContract) return null;
-  // 
-  // 
-  // 
-  // 
-  // 
-  // 
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-  const [present] = useIonToast();
-
-  const processContent = async () => {
-    const content = {
-      title,
-      text,
-    };
-    // const IPFSResult = await IPFSProcessor.saveFile(
-    //   'post.json',
-    //   { base64: btoa(JSON.stringify(content)) },
-    //   { saveIPFS: true }
-    // );
-    // await alert('Content: ', IPFSResult._ipfs);
-    // return IPFSResult._ipfs;
-
-    const result = await ipfs.add(JSON.stringify(content));
-
-    // const result = [];
-
-    // for await (const _result of ipfs.add(content)) {
-    //   result.push(_result);
-    // }
-    const contentUri = `https://ipfs.io/ipfs/${result.path}`;
-    return contentUri;
-  };
-  // quizas redirecciona a appstore como un link porque no esta en ionpage
-  async function onSubmit() {
-    if (title == '' || text == '') {
-      present({
-        message: 'Please fill all fields',
-        duration: 2000,
-        color: 'danger',
-      });
-      return null;
-    }
-    const contentURI = await processContent();
-
-    console.log('resodeContract on post', resodeContract);
-
-    resodeContract.methods
-      .createPost(selectedCategory.id, '0x91', contentURI)
-      .send({ from: walletAddress, gas: 3000000 })
-      .then(() => {
-        setText('');
-        setTitle('');
-      })
-      .catch(console.log);
-  }
+  //
 
   return (
     <IonPage>
@@ -158,33 +95,8 @@ const Main = () => {
         <Scroll pt={isMobile && '32%'} pb="60px">
           <Row>
             <Col70>
-              {/* <CreatePost /> */}
-              <Card>
-                <Padding>
-                  <div>
-                    <InputText
-                      rows={1}
-                      placeholder="Title of your post..."
-                      autoGrow
-                      value={title}
-                      onIonChange={e => setTitle(e.detail.value)}
-                    />
-                    <InputText
-                      rows={3}
-                      placeholder="Text of your post..."
-                      autoGrow
-                      value={text}
-                      onIonChange={e => setText(e.detail.value)}
-                    />
-                  </div>
-                  <Button
-                    onClick={onSubmit}
-                    background="linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)"
-                  >
-                    Post
-                  </Button>
-                </Padding>
-              </Card>
+              <CreatePost />
+              
               {posts?.map(post => (
                 <Post
                   key={post.postId}
