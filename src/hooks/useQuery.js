@@ -12,52 +12,58 @@ const useQuery = JSONProps => {
       fromBlock: 0,
       filter,
     });
-    // console.log('getQuery results', _results);
+    console.log('getQuery results', _results);
+    // sort _results by time
+
+    _results = _results.sort((a, b) => {
+      return b.blockNumber - a.blockNumber;
+    });
+
     await _results.map(async (result, i) => {
       await values.map(value => {
         _results[i][value] = _results[i].returnValues[value];
       });
     });
     _results = await (values ? JSON.parse(JSON.stringify(_results, values)) : _results);
-    reverse ? setResults(_results.reverse()) : setResults(_results);
+    // reverse ? setResults(_results.reverse()) : setResults(_results);
+    setResults(_results);
     return _results;
   };
-  
 
   useEffect(
     () => {
-       getQuery();
+      !live && getQuery();
     },
     Object.prototype.toString.call(onChange) === '[object Array]'
       ? [...onChange, contract]
       : [onChange, contract]
   );
 
-  // useEffect(() => {
-  //   live && getQuery();
-  // }, [])
-  
-
   useEffect(
     () => {
+      console.log('contract or onChange changed');
       live && getLiveQuery();
     },
-    Object.prototype.toString.call(onChange) === '[object Array]' ? [...onChange, contract] : [onChange, contract]
+    Object.prototype.toString.call(onChange) === '[object Array]'
+      ? [...onChange, contract]
+      : [onChange, contract]
   );
 
   // let events = 0;
   async function getLiveQuery() {
+    getQuery();
+
     // console.log('getLiveQuery');
     await contract?.events[query]({
       fromBlock: 'latest',
       filter,
     }).on('data', async event => {
-      let newResult = await (values
-        ? JSON.parse(JSON.stringify(event.returnValues, values))
-        : event);
-      console.log('NEW RESULT (data): ', newResult);
-      setResults(prev => [newResult, ...prev]);
-      // events = (await events + 1 )
+      // let newResult = await (values
+      //   ? JSON.parse(JSON.stringify(event.returnValues, values))
+      //   : event);
+      // console.log('NEW RESULT (data): ', newResult);
+      // setResults(prev => [newResult, ...prev]);
+      getQuery();
     });
   }
 
