@@ -76,7 +76,7 @@ const Post = ({ postOwner, contentUri, postId, allVotes }) => {
           <p>
             <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
             <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
-            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
+            <IonSkeletonText animated style={{ width: '100%', height: "18px" }} />
           </p>
         )}
 
