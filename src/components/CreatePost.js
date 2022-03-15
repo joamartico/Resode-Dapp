@@ -60,11 +60,11 @@ const CreatePost = () => {
     resodeContract.methods
       .createPost(selectedCategory.id, '0x91', contentURI)
       .send({ from: walletAddress, gas: 3000000 })
-      .catch(console.log)
       .then(() => {
         setText('');
         setTitle('');
-      });
+      })
+      .catch(console.log)
   }
 
   return (
