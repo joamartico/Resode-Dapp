@@ -1,4 +1,4 @@
-import { useIonToast } from '@ionic/react';
+import { IonSkeletonText, useIonToast } from '@ionic/react';
 import { arrowUpCircle, chevronDownCircle, chevronUpCircle, home, thumbsUp } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -63,8 +63,23 @@ const Post = ({ postOwner, contentUri, postId, allVotes }) => {
     <Card>
       <Padding pt="15px" pb="15px">
         <Address address={postOwner} avatar="left" size={3} />
-        <Title>{postContent?.title}</Title>
-        <p>{postContent?.text}</p>
+        <Title>
+          {postContent?.title ? (
+            postContent.title
+          ) : (
+            <IonSkeletonText animated style={{ width: '80%', height: "30px", marginBottom: 12, }} />
+          )}
+        </Title>
+        {postContent?.text ? (
+          <p>{postContent.text}</p>
+        ) : (
+          <p>
+            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
+            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
+            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
+          </p>
+        )}
+
         <Row>
           <Icon
             icon={chevronUpCircle}
