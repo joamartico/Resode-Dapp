@@ -1,4 +1,4 @@
-import { IonInput, IonTextarea, useIonToast } from '@ionic/react';
+import { IonContent, IonInput, IonPage, IonTextarea, useIonToast } from '@ionic/react';
 import React, { useState } from 'react';
 import { useMoralisFile } from 'react-moralis';
 import styled from 'styled-components';
@@ -43,8 +43,9 @@ const CreatePost = () => {
     const contentUri = `https://ipfs.io/ipfs/${result.path}`;
     return contentUri;
   };
-
-  async function onSubmit() {
+  // quizas redirecciona a appstore como un link porque no esta en ionpage
+  async function onSubmit(e) {
+    e.prevent.default();
     if (title == '' || text == '') {
       present({
         message: 'Please fill all fields',
@@ -64,36 +65,40 @@ const CreatePost = () => {
         setText('');
         setTitle('');
       })
-      .catch(console.log)
+      .catch(console.log);
   }
 
   return (
-    <Card>
-      <Padding>
-        <div>
-          <InputText
-            rows={1}
-            placeholder="Title of your post..."
-            autoGrow
-            value={title}
-            onIonChange={e => setTitle(e.detail.value)}
-          />
-          <InputText
-            rows={3}
-            placeholder="Text of your post..."
-            autoGrow
-            value={text}
-            onIonChange={e => setText(e.detail.value)}
-          />
-        </div>
-        <Button
-          onClick={onSubmit}
-          background="linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)"
-        >
-          Post
-        </Button>
-      </Padding>
-    </Card>
+    <IonPage>
+      <IonContent>
+        <Card>
+          <Padding>
+            <div>
+              <InputText
+                rows={1}
+                placeholder="Title of your post..."
+                autoGrow
+                value={title}
+                onIonChange={e => setTitle(e.detail.value)}
+              />
+              <InputText
+                rows={3}
+                placeholder="Text of your post..."
+                autoGrow
+                value={text}
+                onIonChange={e => setText(e.detail.value)}
+              />
+            </div>
+            <Button
+              onClick={onSubmit}
+              background="linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)"
+            >
+              Post
+            </Button>
+          </Padding>
+        </Card>
+      </IonContent>
+    </IonPage>
   );
 };
 
