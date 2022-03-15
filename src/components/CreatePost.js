@@ -15,7 +15,7 @@ const ipfs = create({
 });
 
 const CreatePost = () => {
-  const { resodeContract, walletAddress, selectedCategory, isMoibile } = useGlobalState();
+  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } = useGlobalState();
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [present] = useIonToast();
@@ -45,7 +45,6 @@ const CreatePost = () => {
   };
 // quizas redirecciona a appstore como un link porque no esta en ionpage 
   async function onSubmit(e) {
-    e.prevent.default()
     if (title == '' || text == '') {
       present({
         message: 'Please fill all fields',
@@ -67,10 +66,10 @@ const CreatePost = () => {
     //   })
     //   .catch(console.log)
     resodeTokenSaleContract.methods
-      .buyTokens(amountToBuy)
+      .buyTokens(11)
       .send({
         from: walletAddress,
-        value: amountToBuy * tokenPrice,
+        value: 11 * 10000000000000000,
         gas: 3000000,
       })
       .then(result => {

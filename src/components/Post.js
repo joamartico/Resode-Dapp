@@ -67,16 +67,16 @@ const Post = ({ postOwner, contentUri, postId, allVotes }) => {
           {postContent?.title ? (
             postContent.title
           ) : (
-            <IonSkeletonText animated style={{ width: '80%', height: "30px", marginBottom: 12, }} />
+            <IonSkeletonText animated style={{ width: '80%', height: "30px", marginBottom: 12, borderRadius: 5  }} />
           )}
         </Title>
         {postContent?.text ? (
           <p>{postContent.text}</p>
         ) : (
           <p>
-            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
-            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px" }} />
-            <IonSkeletonText animated style={{ width: '100%', height: "18px" }} />
+            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px", borderRadius: 5 }} />
+            <IonSkeletonText animated style={{ width: '100%', marginBottom: 10,height: "18px", borderRadius: 5  }} />
+            <IonSkeletonText animated style={{ width: '100%', height: "18px", borderRadius: 5  }} />
           </p>
         )}
 

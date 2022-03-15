@@ -9,7 +9,7 @@ import useGlobalState from '../hooks/useGlobalState';
 import useMethod from '../hooks/useMethod';
 
 const TokenSale = () => {
-  const { resodeTokenSaleContract, resodeTokenContract, walletAddress } = useGlobalState();
+  const { resodeTokenSaleContract, resodeTokenContract, walletAddress, resodeContract } = useGlobalState();
 
   if (!resodeTokenSaleContract || !resodeTokenContract) return null;
 
