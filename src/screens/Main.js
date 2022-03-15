@@ -142,7 +142,7 @@ const Col30 = styled.div`
   height: 600px;
   background-color: #fff;
   border-radius: 14px;
-  box-shadow: 50px 0 100px 50px rgba(209, 224, 255, 0.5);
+  box-shadow: 50px 0 100px 50px rgba(209, 224, 255, 0.5); 
 `;
 
 const ToolbarButton = styled.div`
