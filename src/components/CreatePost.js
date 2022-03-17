@@ -15,7 +15,8 @@ const ipfs = create({
 });
 
 const CreatePost = () => {
-  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } = useGlobalState();
+  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } =
+    useGlobalState();
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [present] = useIonToast();
@@ -43,7 +44,7 @@ const CreatePost = () => {
     const contentUri = `https://ipfs.io/ipfs/${result.path}`;
     return contentUri;
   };
-// quizas redirecciona a appstore como un link porque no esta en ionpage 
+  // quizas redirecciona a appstore como un link porque no esta en ionpage
   async function onSubmit(e) {
     if (title == '' || text == '') {
       present({
@@ -66,13 +67,17 @@ const CreatePost = () => {
     //   })
     //   .catch(console.log)
     resodeContract.methods
-      .createPost("0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225", '0x91', "https://ipfs.io/ipfs/QmcLesWYetppE8PgYso7GSemZNSBCbrpHKt9HKW1emFzbR")
+      .createPost(
+        '0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225',
+        '0x91',
+        'https://ipfs.io/ipfs/QmcLesWYetppE8PgYso7GSemZNSBCbrpHKt9HKW1emFzbR'
+      )
       .send({ from: walletAddress, gas: 3000000 })
       .then(() => {
         // setText('');
         // setTitle('');
       })
-      .catch(console.log)
+      .catch(console.log);
   }
 
   return (
@@ -115,4 +120,14 @@ const InputText = styled(IonTextarea)`
   --padding-bottom: 0px !important;
   --padding-top: 0px !important;
   margin-bottom: 10px !important;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 90%;
+  padding: 0 5%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 `;
