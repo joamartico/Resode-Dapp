@@ -15,11 +15,11 @@ const ContextComponent = props => {
 
 
   useEffect(() => {
-    Moralis.onChainChanged(function (chain) {
+    Moralis?.onChainChanged(function (chain) {
       setChainId(chain);
     });
 
-    Moralis.onAccountsChanged(function (address) {
+    Moralis?.onAccountsChanged(function (address) {
       setWalletAddress(address[0]);
     });
   }, []);
