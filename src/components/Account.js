@@ -9,35 +9,31 @@ import { Button, Icon, Padding, Row, Text } from './StyledComponents';
 import { closeOutline, openOutline } from 'ionicons/icons';
 
 import { useEffect, useState, useRef } from 'react';
-import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
-import { InjectedConnector } from '@web3-react/injected-connector';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { Web3Provider } from '@ethersproject/providers';
-import useLocalStorage from '../hooks/useLocalStorage';
+// import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
+// import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+// import { Web3Provider } from '@ethersproject/providers';
 import useGlobalState from '../hooks/useGlobalState';
-import useContract from '../hooks/useContract';
-import resodeContractJSON from '../../truffle/build/contracts/Resode.json';
 
-const wcConnector = new WalletConnectConnector({
-  infuraId: 'm4OZrS1YYziZUSyinkROsS7F24eyk3hZknK2GYxQ', // que es esto y por que solo funciona con chainId: 4??
-  chainId: 4,
-});
+// const wcConnector = new WalletConnectConnector({
+//   infuraId: 'm4OZrS1YYziZUSyinkROsS7F24eyk3hZknK2GYxQ', // que es esto y por que solo funciona con chainId: 4??
+//   chainId: 4,
+// });
 
-function getLibrary(provider) {
-  const library = new Web3Provider(provider);
-  // library.pollingInterval = 12000;
-  return library;
-}
+// function getLibrary(provider) {
+//   const library = new Web3Provider(provider);
+//   // library.pollingInterval = 12000;
+//   return library;
+// }
 
 const Account = () => {
   const { logout, Moralis, enableWeb3 } = useMoralis();
   const { walletAddress, setWalletAddress, chainId } = useGlobalState();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // const {setContractWithWC} = useContract(resodeContractJSON);
-  const web3React = useWeb3React();
+  // const web3React = useWeb3React();
 
   async function onAuthenticate() {
     if (window.ethereum) {
+      enableWeb3();
       const addresses = await window.ethereum.request({ method: 'eth_requestAccounts' });
       setWalletAddress(addresses[0].toUpperCase());
     } else {
@@ -45,13 +41,13 @@ const Account = () => {
       await enableWeb3({ provider: 'walletconnect' });
       const addresses = await Moralis.web3.eth.getAccounts();
       await setWalletAddress(addresses[0]);
-      console.log(
-        'WC: ',
-        wcConnector,
-        Moralis.web3.currentProvider,
-        web3React.account,
-        web3React.active
-      );
+      // console.log(
+      //   'WC: ',
+      //   wcConnector,
+      //   Moralis.web3.currentProvider,
+      //   web3React.account,
+      //   web3React.active
+      // );
     }
   }
 
@@ -164,13 +160,13 @@ const Account = () => {
   );
 };
 
-export default function WrapperAccount() {
-  return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <Account />
-    </Web3ReactProvider>
-  );
-}
+// export default function WrapperAccount() {
+//   return (
+//     <Web3ReactProvider getLibrary={getLibrary}>
+//       <Account />
+//     </Web3ReactProvider>
+//   );
+// }
 
 const Card = styled.div`
   border-radius: 12px;

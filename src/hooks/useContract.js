@@ -57,7 +57,7 @@ const useContract = contractJSON => {
   }
 
   async function getContract() {
-    await enableWeb3();
+    // await enableWeb3();
     const _contract = await loadContract(new Moralis.Web3(window.ethereum));
     setContract(_contract);
     console.log('getContract', _contract.options.address); // funciona bien

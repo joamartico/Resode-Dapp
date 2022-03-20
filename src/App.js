@@ -1,6 +1,5 @@
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { useMoralis } from 'react-moralis';
 import { Redirect, Route } from 'react-router-dom';
 import Context from './Context';
 import Main from './screens/Main';

@@ -109,6 +109,6 @@ const Title = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
 
-  margin-bottom: -15px;
+  margin-bottom: -12px;
   margin-top: 5px;
 `;

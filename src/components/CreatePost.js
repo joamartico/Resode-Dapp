@@ -15,8 +15,7 @@ const ipfs = create({
 });
 
 const CreatePost = () => {
-  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } =
-    useGlobalState();
+  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } = useGlobalState();
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [present] = useIonToast();
@@ -26,25 +25,14 @@ const CreatePost = () => {
       title,
       text,
     };
-    // const IPFSResult = await IPFSProcessor.saveFile(
-    //   'post.json',
-    //   { base64: btoa(JSON.stringify(content)) },
-    //   { saveIPFS: true }
-    // );
-    // await alert('Content: ', IPFSResult._ipfs);
-    // return IPFSResult._ipfs;
+
 
     const result = await ipfs.add(JSON.stringify(content));
 
-    // const result = [];
-
-    // for await (const _result of ipfs.add(content)) {
-    //   result.push(_result);
-    // }
     const contentUri = `https://ipfs.io/ipfs/${result.path}`;
     return contentUri;
   };
-  // quizas redirecciona a appstore como un link porque no esta en ionpage
+// quizas redirecciona a appstore como un link porque no esta en ionpage 
   async function onSubmit(e) {
     if (title == '' || text == '') {
       present({
@@ -58,31 +46,30 @@ const CreatePost = () => {
 
     console.log('resodeContract on post', resodeContract);
 
-    // resodeContract.methods
-    //   .createPost(selectedCategory.id, '0x91', contentURI)
-    //   .send({ from: walletAddress, gas: 3000000 })
-    //   .then(() => {
-    //     setText('');
-    //     setTitle('');
-    //   })
-    //   .catch(console.log)
     resodeContract.methods
-      .createPost(
-        '0xc5bd07976cb0704ae6be0eaee9652ee37944bd01ab4b2f552b47b8cbee456225',
-        '0x91',
-        'https://ipfs.io/ipfs/QmcLesWYetppE8PgYso7GSemZNSBCbrpHKt9HKW1emFzbR'
-      )
+      .createPost(selectedCategory.id, '0x91', contentURI)
       .send({ from: walletAddress, gas: 3000000 })
       .then(() => {
-        // setText('');
-        // setTitle('');
+        setText('');
+        setTitle('');
       })
-      .catch(console.log);
+      .catch(console.log)
+    // resodeTokenSaleContract.methods
+    //   .buyTokens(11)
+    //   .send({
+    //     from: walletAddress,
+    //     value: 11 * 10000000000000000,
+    //     gas: 3000000,
+    //   })
+    //   .then(result => {
+    //     console.log('result', result);
+    //   })
+    //   .catch(err => console.log('err', err));
   }
 
   return (
     <Card>
-      <Wrapper>
+      <Padding>
         <div>
           <InputText
             rows={1}
@@ -105,7 +92,7 @@ const CreatePost = () => {
         >
           Post
         </Button>
-      </Wrapper>
+      </Padding>
     </Card>
   );
 };
@@ -120,14 +107,4 @@ const InputText = styled(IonTextarea)`
   --padding-bottom: 0px !important;
   --padding-top: 0px !important;
   margin-bottom: 10px !important;
-`;
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 90%;
-  padding: 0 5%;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
 `;

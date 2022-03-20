@@ -5,6 +5,7 @@ import { Icon } from './StyledComponents';
 import styled from 'styled-components';
 import { isMobile } from '../helpers/isMobile';
 import { chevronDown } from "ionicons/icons";
+import { isPlatform } from "@ionic/core";
 
 const networks = [
   {
@@ -107,6 +108,8 @@ function Chain() {
     };
   }, [showChains]);
 
+  const isIos = isPlatform('ios');
+
   return (
     <>
       {showChains && (
@@ -170,8 +173,8 @@ const Menu = styled.div`
   border-radius: 14px;
   position: absolute;
   /* padding-right: 12px; */
-  top: ${isMobile && "0" };
-  margin-top: ${isMobile ? "60px" : "480px"};
+  top: ${isIos && "0" };
+  margin-top: ${isIos ? "60px" : "480px"};
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
 `;
 

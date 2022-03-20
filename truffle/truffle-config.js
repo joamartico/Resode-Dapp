@@ -19,9 +19,7 @@
  */
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-//
-// const fs = require('fs');
-const secrets = require('../secrets.json');
+const secrets = require('../secrets.json').mnemonic;
 
 module.exports = {
   /**
@@ -111,10 +109,10 @@ module.exports = {
     },
     mumbai: {
       provider: () =>
-        new HDWalletProvider(
-          secrets.mnemonic,
-          'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/polygon/mumbai'
-        ),
+        new HDWalletProvider({
+          providerOrUrl: 'https://speedy-nodes-nyc.moralis.io/73323dda20b1c4a5c3605eb4/polygon/mumbai',
+          privateKeys: secrets.privateKeys,
+        }),
       network_id: 80001, // Polygon Mumbai's id
       gas: 5500000, // Ropsten has a lower block limit than mainnet
       confirmations: 2, // # of confs to wait between deployments. (default: 0)
