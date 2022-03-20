@@ -160,6 +160,9 @@ const Account = () => {
   );
 };
 
+export default Account;
+
+
 // export default function WrapperAccount() {
 //   return (
 //     <Web3ReactProvider getLibrary={getLibrary}>
