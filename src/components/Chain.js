@@ -3,7 +3,7 @@ import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo } from './ChainsLogos';
 import { useChain } from 'react-moralis';
 import { Icon } from './StyledComponents';
 import styled from 'styled-components';
-import { isMobile } from '../helpers/isMobile';
+import { isMobile, isIos } from '../helpers/isMobile';
 import { chevronDown } from "ionicons/icons";
 import { isPlatform } from "@ionic/core";
 
