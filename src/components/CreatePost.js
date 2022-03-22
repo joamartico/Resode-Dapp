@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 import useGlobalState from '../hooks/useGlobalState';
 import { isMobile } from '../helpers/isMobile';
-import { Button, Card, Padding } from './StyledComponents';
+import { Button, Card, Padding, Row } from './StyledComponents';
 import { create } from 'ipfs-http-client';
 
 const ipfs = create({
@@ -15,7 +15,8 @@ const ipfs = create({
 });
 
 const CreatePost = () => {
-  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } = useGlobalState();
+  const { resodeContract, walletAddress, selectedCategory, isMoibile, resodeTokenSaleContract } =
+    useGlobalState();
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [present] = useIonToast();
@@ -26,14 +27,13 @@ const CreatePost = () => {
       text,
     };
 
-
     const result = await ipfs.add(JSON.stringify(content));
 
     const contentUri = `https://ipfs.io/ipfs/${result.path}`;
     return contentUri;
   };
-// quizas redirecciona a appstore como un link porque no esta en ionpage 
-  async function onSubmit(e) {
+  // quizas redirecciona a appstore como un link porque no esta en ionpage
+  async function onPost() {
     if (title == '' || text == '') {
       present({
         message: 'Please fill all fields',
@@ -46,29 +46,12 @@ const CreatePost = () => {
 
     console.log('resodeContract on post', resodeContract);
 
-    // await resodeContract?.methods?
-    //   .createPost(selectedCategory.id, '0x91', contentURI)
-    //   .send({ from: walletAddress, gas: 3000000 })
-    //   
-    // setText('');
-    // setTitle('');
+    await resodeContract?.methods?.createPost(selectedCategory.id, '0x91', contentURI).send({ from: walletAddress, gas: 3000000 })
+    
+    setText('');
+    setTitle('');
 
-    // resodeTokenSaleContract.methods
-    //   .buyTokens(11)
-    //   .send({
-    //     from: walletAddress,
-    //     value: 11 * 10000000000000000,
-    //     gas: 3000000,
-    //   })
-    //   .then(result => {
-    //     console.log('result', result);
-    //   })
-    //   .catch(err => console.log('err', err));
-
-    // así no redirecciona?:
-    resodeContract?.methods
-      ?.vote("0x61492779c2121043da0c1174462bcec654e0fb3f913af1ff57a930ef23f686ac", 1, true)
-      .send({ from: walletAddress });
+    
   }
 
   return (
@@ -90,12 +73,14 @@ const CreatePost = () => {
             onIonChange={e => setText(e.detail.value)}
           />
         </div>
-        <Button
-          onClick={onSubmit}
-          background="linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)"
-        >
-          Post
-        </Button>
+        <Row>
+          <Button
+            onClick={() => onPost()}
+            background="linear-gradient(174deg, rgba(93,152,255,1) 0%,  rgba(0,63,255,1) 80%, rgba(12,102,222,1) 100%)"
+          >
+            Post
+          </Button>
+        </Row>
       </Padding>
     </Card>
   );
