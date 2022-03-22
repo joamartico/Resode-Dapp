@@ -46,14 +46,13 @@ const CreatePost = () => {
 
     console.log('resodeContract on post', resodeContract);
 
-    resodeContract.methods
-      .createPost(selectedCategory.id, '0x91', contentURI)
-      .send({ from: walletAddress, gas: 3000000 })
-      .then(() => {
-        setText('');
-        setTitle('');
-      })
-      .catch(console.log)
+    // await resodeContract?.methods?
+    //   .createPost(selectedCategory.id, '0x91', contentURI)
+    //   .send({ from: walletAddress, gas: 3000000 })
+    //   
+    // setText('');
+    // setTitle('');
+
     // resodeTokenSaleContract.methods
     //   .buyTokens(11)
     //   .send({
@@ -65,6 +64,11 @@ const CreatePost = () => {
     //     console.log('result', result);
     //   })
     //   .catch(err => console.log('err', err));
+
+    // así no redirecciona?:
+    resodeContract?.methods
+      ?.vote("0x61492779c2121043da0c1174462bcec654e0fb3f913af1ff57a930ef23f686ac", 1, true)
+      .send({ from: walletAddress });
   }
 
   return (
